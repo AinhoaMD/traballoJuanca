@@ -7,7 +7,7 @@
     </header>
 
     <section class="hero">
-      <div class="container">
+      <div class="container-fluid">
         <!-- <h2>Encuentra tu coche ideal</h2>
         <p>Vehículos nuevos y de ocasión a precios inmejorables.</p> -->
         <!-- <form class="search" @submit.prevent>

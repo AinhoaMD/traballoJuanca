@@ -1,5 +1,5 @@
 <template>
-  <div class="container my-1 p-3 border rounded-0 shadow-sm bg-light">
+  <div class="container-fluid my-1 p-3 border rounded-0 shadow-sm bg-light">
     <h4 class="text-center my-2">Registro de Clientes</h4>
 
     <form @submit.prevent="guardarCliente" class="mb-4">
@@ -68,7 +68,7 @@
           <input type="email" id="email" v-model="nuevoCliente.email" class="form-control" @blur="validarEmail" :class="{ 'is-invalid': !emailValido }" required />
           <div v-if="!emailValido" class="invalid-feedback d-block">Email inválido</div>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-3">
           <label for="movil" class="form-label">Móvil:</label>
           <input type="tel" id="movil" v-model="nuevoCliente.movil" class="form-control" @blur="validarMovil" :class="{ 'is-invalid': !movilValido }" />
           <div v-if="!movilValido" class="invalid-feedback d-block">9 dígitos, empieza por 6 o 7</div>

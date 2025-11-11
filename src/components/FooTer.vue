@@ -7,7 +7,7 @@
         <!-- <li class="list-inline-item"><a href="#" class="text-light text-decoration-none">Política de privacidad</a></li> -->
         <li class="list-inline-item"><a href="#" class="text-light text-decoration-none">Contacto</a></li>
       </ul>
-      <p class="mb-1">&copy; {{ new Date().getFullYear() }} MiSitio. Todos los derechos reservados.</p>
+      <p class="mb-1 text-white">&copy; {{ new Date().getFullYear() }} MiSitio. Todos los derechos reservados.</p>
     </div>
   </footer>
 </template>
