@@ -483,5 +483,40 @@
       "contenido": "Victor detenido por responder a un qué prefieres\nmar, 11 nov 2025 19:45\nEl joven Víctor ha sido detenido por responder a un qué prefieres. La científica Paula ya ha realizado una autopsia y utilizará sus órganos para fines científicos",
       "fecha": "2025-11-11T18:46:06.482Z"
     }
+  ],
+  "modelos": [
+    {
+      "id": "1",
+      "nombre": "Modelo A",
+      "matricula": "1234ABC",
+      "tipo": "Deportivo",
+      "dueno": "Laura López Sánchez",
+      "marca": "BMW",
+      "combustible": "Gasolina",
+      "roto": false,
+      "itv": true
+    },
+    {
+      "id": "2",
+      "nombre": "Modelo B",
+      "matricula": "2222ABC",
+      "tipo": "Turismo",
+      "dueno": "Rubén Rodríguez Martínez",
+      "marca": "Toyota",
+      "combustible": "Diesel",
+      "roto": false,
+      "itv": true
+    },
+    {
+      "id": "3",
+      "nombre": "Modelo A",
+      "matricula": "4444ABC",
+      "tipo": "Deportivo",
+      "dueno": "Paula Collazo Figueroa",
+      "combustible": "Eléctrico",
+      "marca": "Citroen",
+      "roto": true,
+      "itv": false
+    }
   ]
 }
