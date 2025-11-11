@@ -85,7 +85,7 @@
             class="btn-borrar"
             @click="eliminarNoticia(noticia.id)"
           >
-            🗑 Borrar
+            <i class="bi bi-trash"></i>
           </button>
         </td>
       </tr>
@@ -117,9 +117,8 @@ const toggleExpand = (id) => {
 
 const cargarNoticias = async () => {
   try {
-    const response = await getNoticias()
-    // Asegurarnos de tener id en cada noticia
-    noticias.value = response.data.map((n, idx) => ({ id: n.id ?? String(idx + 1), ...n }))
+    const data = await getNoticias()
+    noticias.value = data.sort((a, b) => new Date(b.fecha) - new Date(a.fecha))
     // Inicializar el estado de expansión
     noticias.value.forEach(noticia => {
       isExpanded.value[noticia.id] = false
@@ -136,6 +135,9 @@ const agregarNoticia = async () => {
   }
 
   const nueva = {
+    id: noticias.value.length > 0
+      ? String(Math.max(...noticias.value.map(n => Number(n.id))) + 1)
+      : '1',
     titulo: titulo.value.trim(),
     contenido: contenido.value.trim(),
     fecha: new Date().toISOString()
@@ -144,8 +146,8 @@ const agregarNoticia = async () => {
   try {
     const res = await addNoticia(nueva)
     // actualizar lista local
-    noticias.value.unshift(res.data)
-    isExpanded.value[res.data.id] = false
+    noticias.value.unshift(nueva)
+    isExpanded.value[nueva.id] = false
     // limpiar formulario
     titulo.value = ''
     contenido.value = ''
@@ -346,7 +348,7 @@ td {
 }
 
 .btn-borrar {
-  background-color: #e74c3c;
+  background-color: rgba(199, 64, 64, 0.734);
   color: white;
   border: none;
   padding: 0.25rem 0.6rem;

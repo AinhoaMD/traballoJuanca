@@ -251,7 +251,7 @@
       "direccion": "Calle García 12",
       "provincia": "Madrid",
       "municipio": "Móstoles",
-      "historico": false,
+      "historico": true,
       "lopd": true,
       "password": "",
       "id": "76d6"
@@ -439,22 +439,28 @@
   ],
   "noticias": [
     {
+      "id": "1",
       "titulo": "Daniel Fuentes escogido como alcalde de Ferrol",
       "contenido": "El joven Daniel Fuentes ha sido escogido como alcalde de Ferrol el pasado Martes. Diego Currás, concejal automovilístico ha mostrado su apoyo.",
-      "fecha": "2025-10-21T10:00:00",
-      "id": "6a3d"
+      "fecha": "2025-10-21T10:00:00"
     },
     {
+      "id": "2",
       "titulo": "Pedro llega temprano a clase",
       "contenido": "El pasado martes ocurrió un suceso inesperado: Pedro Meijueiro llegó temprano a clase.",
-      "fecha": "2025-10-20T14:30:00",
-      "id": "0378"
+      "fecha": "2025-10-20T14:30:00"
     },
     {
+      "id": "3",
       "titulo": "Oliveira remonta el partido Celta-Madrid",
       "contenido": "El pasado lunes 20, el jugador Oliveira marcó un gol que cambiaría el panorama del partido completamente, haciendo que el Real Club Celta se llevase la victoria.",
-      "fecha": "2025-10-20T14:30:00",
-      "id": "f7aa"
+      "fecha": "2025-10-20T14:30:00"
+    },
+    {
+      "id": "4",
+      "titulo": "Rubén ayuda a arreglar esta bazofia",
+      "contenido": "El genio Rubén ha conseguido arreglar esta página",
+      "fecha": "2025-11-11T18:21:09.440Z"
     }
   ]
 }

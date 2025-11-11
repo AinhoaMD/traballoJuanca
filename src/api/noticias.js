@@ -1,28 +1,30 @@
-import db from '@/data/db.json'
+import axios from 'axios';
 
-// Mantener una copia en memoria de las noticias para uso en runtime.
-const noticiasData = (db && db.noticias ? db.noticias.map((n, idx) => ({ id: n.id ?? String(idx + 1), ...n })) : [])
-
-export function getNoticias() {
-	// Devolver objeto tipo axios { data: ... } para compatibilidad con el componente
-	return Promise.resolve({ data: noticiasData })
+export async function getNoticias() {
+	try {
+		const res = await axios.get("http://localhost:3000/noticias");
+		return res.data;
+	} catch (error) {
+		console.error("Fallo al obtener las noticias de la bbdd", error);
+		throw error;
+	}
 }
 
-export function addNoticia(noticia) {
-	const id = String(Date.now())
-	const nueva = { id, ...noticia }
-	// Insertar al principio para que las más recientes salgan primero
-	noticiasData.unshift(nueva)
-	return Promise.resolve({ data: nueva })
-}
-
-export function deleteNoticia(id) {
-  const index = noticiasData.findIndex((n) => n.id === id);
-  if (index === -1) {
-    return Promise.reject(new Error("Noticia no encontrada"));
+export async function addNoticia(noticia) {
+	try {
+    await axios.post("http://localhost:3000/noticias", noticia).then((res) => res.data);
+  } catch (error) {
+    console.error("Fallo al añadir la nueva noticia a la bbdd", error);
+    throw error;
   }
-
-  noticiasData.splice(index, 1); // eliminar del array en memoria
-  return Promise.resolve({ success: true });
 }
+
+export async function deleteNoticia(id) {
+	try {
+    await axios.delete(`http://localhost:3000/noticias/${id}`).then((res) => res.data);
+  } catch (error) {
+    console.error("Fallo al borrar la noticia", error);
+    throw error;
+  }
+  }
 
