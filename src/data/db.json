@@ -347,7 +347,7 @@
       "direccion": "Avda. De Galicia, 101",
       "provincia": "Cuenca",
       "municipio": "Alconchel de la Estrella",
-      "fecha_alta": "2006-02-10",
+      "fecha_alta": "2006-02-09",
       "historico": true,
       "lopd": true
     },
@@ -435,6 +435,21 @@
       "municipio": "Calafell",
       "fecha_alta": "2025-10-14",
       "historico": true
+    },
+    {
+      "id": "0401",
+      "dni": "39495960S",
+      "nombre": "Rubén",
+      "apellidos": "Rodríguez",
+      "email": "ruben@gmail.com",
+      "movil": "688778867",
+      "direccion": "Su Casa",
+      "provincia": "Pontevedra",
+      "municipio": "Vigo",
+      "fecha_alta": "2025-11-13",
+      "historico": true,
+      "tipoCliente": "particular",
+      "lopd": true
     }
   ],
   "noticias": [
