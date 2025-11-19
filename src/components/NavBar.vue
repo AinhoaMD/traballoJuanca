@@ -32,10 +32,10 @@
             <router-link to="/noticias" class="nav-link">Noticias</router-link>
           </li>
           <li>
-            <router-link to="/#" class="nav-link">Contacto</router-link>
+            <router-link to='/modelos' class="nav-link">Modelos</router-link>
           </li>
           <li>
-            <router-link to='/modelos' class="nav-link">Modelos</router-link>
+            <router-link to="/citas-taller" class="nav-link">Citas Taller</router-link>
           </li>
           <!-- <li class="nav-item">
             <router-link to="/" class="nav-link">Inicio</router-link>

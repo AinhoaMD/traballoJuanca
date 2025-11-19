@@ -518,5 +518,43 @@
       "roto": true,
       "itv": false
     }
+  ],
+  "taller": [
+    {
+      "id": "1",
+      "matricula": "1234ABC",
+      "movilCliente": "655445544",
+      "fechaCita": "2025-11-20",
+      "servicioTaller": "revision",
+      "estadoCita": "pendiente",
+      "acepta": true
+    },
+    {
+      "id": "2",
+      "matricula": "4444ABC",
+      "movilCliente": "655445543",
+      "fechaCita": "2025-11-21",
+      "servicioTaller": "frenos",
+      "estadoCita": "pendiente",
+      "acepta": true
+    },
+    {
+      "id": "5",
+      "matricula": "1234DFV",
+      "movilCliente": "",
+      "fechaCita": "",
+      "servicioTaller": "preitv",
+      "estadoCita": "",
+      "acepta": true
+    },
+    {
+      "id": "6",
+      "matricula": "3333AAA",
+      "movilCliente": "666778899",
+      "fechaCita": "",
+      "servicioTaller": "preitv",
+      "estadoCita": "",
+      "acepta": true
+    }
   ]
 }

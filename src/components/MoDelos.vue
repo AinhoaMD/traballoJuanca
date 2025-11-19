@@ -1,414 +1,323 @@
 <template>
-    <div class="container-fluid my-1 p-3 border rounded-3 shadow-sm bg-light">
-    <!-- Título principal -->
+  <div class="container-fluid my-4 p-4 border rounded-4 shadow-lg bg-white">
     <h4
-      class="text-center mx-2 my-1 bg-`primary-subtle py-1 border bg-primary bg-opacity-25 text-primary p-3 rounded"
+      class="text-center mb-4 fw-semibold text-primary border-bottom pb-2 mt-2"
     >
-      <i class="bi bi-person-gear me-2"></i>Lista de Modelos
+      <i class="bi bi-car-front me-2"></i>Registro de Vehículos
     </h4>
 
-    <!-- Botón para limpiar formulario -->
-    <div class="d-flex justify-content-end">
-      <button
-        type="button"
-        class="btn border border-primary border-2 rounded-0 text-primary shadow-none mt-2 me-2"
-        style="--bs-btn-hover-bg: var(--bs-primary-bg-subtle)"
-        @click="limpiarPagina"
-        title="Limpiar formulario"
-      >
-        <i class="bi bi-arrow-counterclockwise"></i>
-      </button>
-    </div>
-
-    <!-- Formulario para añadir o modificar modelos -->
-    <form @submit.prevent="guardarModelo" class="mb-4">
-      <div class="row g-3 align-items-end">
-        <!-- Campo de nombre -->
-        <div class="col-md-4">
-          <label for="nombre" class="form-label">Nombre:</label>
-          <input
-            type="text"
-            class="form-control"
-            id="nombre"
-            @blur="capitalizarTexto('nombre')"
-            v-model="nuevoModelo.nombre"
-            required
-          />
-        </div>
-
-        <!-- Input matricula -->
-        <div class="col-md-4">
-          <label for="matricula" class="form-label">Matrícula: </label>
-          <input
-            type="text"
-            class="form-control"
-            id="matricula"
-            pattern="[0-9]{4}[A-Za-z]{3}"
-            v-model="nuevoModelo.matricula"
-            required
-          />  
-        </div>
-
-        <!-- Campo de dueno -->
-        <div class="col-md-4">
-          <label for="dueno" class="form-label">Dueño: </label>
-          <input
-            type="text"
-            class="form-control"
-            id="dueno"
-            @blur="capitalizarTexto('dueno')"
-            v-model="nuevoModelo.dueno"
-            required
-          />
-        </div>
-
-        <!-- Select de Tipo -->
-        <div class="col-md-4">
-        <label for="tipo" class="form-label">Tipo: </label>
-          <select
-            id="puesto"
-            v-model="nuevoModelo.tipo"
-            class="form-select"
-            required
-          >
-            <option disabled value="">Seleccione un tipo</option>
-            <option
-              v-for="opcion in opcionesTipo"
-              :key="opcion"
-              :value="opcion"
-            >
-              {{ opcion }}
-            </option>
-          </select>
+    <form @submit.prevent="guardarVehiculo" class="mb-2 mt-1">
+      <!-- FILA: Tipo, Marca, Modelo, Matricula -->
+      <div class="row g-3 mt-1">
+        <div class="col-12 col-md-3">
+          <label class="form-label">Tipo:</label>
+          <div class="d-flex gap-3">
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="radio"
+                id="tipo-coche"
+                value="coche"
+                v-model="vehiculo.tipo"
+              />
+              <label class="form-check-label" for="tipo-coche">Coche</label>
+            </div>
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="radio"
+                id="tipo-furgoneta"
+                value="furgoneta"
+                v-model="vehiculo.tipo"
+              />
+              <label class="form-check-label" for="tipo-furgoneta"
+                >Furgoneta</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="radio"
+                id="tipo-moto"
+                value="moto"
+                v-model="vehiculo.tipo"
+              />
+              <label class="form-check-label" for="tipo-moto">Moto</label>
+            </div>
           </div>
-
-          <!-- Select de Marca -->
-        <div class="col-md-4">
-        <label for="tipo" class="form-label">Marca: </label>
-          <select
+        </div>
+        <div class="col-12 col-md-3">
+          <label for="marca" class="form-label">Marca:</label>
+          <input
+            type="text"
             id="marca"
-            v-model="nuevoModelo.marca"
-            class="form-select"
+            v-model="vehiculo.marca"
+            class="form-control"
             required
+          />
+        </div>
+        <div class="col-12 col-md-3">
+          <label for="modelo" class="form-label">Modelo:</label>
+          <input
+            type="text"
+            id="modelo"
+            v-model="vehiculo.modelo"
+            class="form-control"
+            required
+          />
+        </div>
+        <div class="col-12 col-md-3">
+          <label for="matricula" class="form-label">Matricula:</label>
+          <input
+            type="text"
+            id="matricula"
+            v-model="vehiculo.matricula"
+            class="form-control"
+          />
+        </div>
+      </div>
+
+      <!-- FILA: Año, Kilómetros, Precio -->
+      <div class="row g-3 mt-2">
+        <div class="col-12 col-md-2">
+          <label for="anio" class="form-label">Año:</label>
+          <input
+            type="number"
+            id="anio"
+            v-model="vehiculo.anio"
+            class="form-control"
+            required
+          />
+        </div>
+        <div class="col-12 col-md-5">
+          <label for="kilometros" class="form-label">Kilómetros:</label>
+          <input
+            type="number"
+            id="kilometros"
+            v-model="vehiculo.kilometros"
+            class="form-control"
+            required
+          />
+        </div>
+        <div class="col-12 col-md-5">
+          <label for="precio" class="form-label">Precio (€):</label>
+          <input
+            type="number"
+            id="precio"
+            v-model="vehiculo.precio"
+            class="form-control"
+            required
+          />
+        </div>
+      </div>
+
+      <!-- FILA: Combustible, Transmisión, Potencia -->
+      <div class="row g-3 mt-2">
+        <div class="col-12 col-md-4">
+          <label for="combustible" class="form-label">Combustible:</label>
+          <select
+            id="combustible"
+            v-model="vehiculo.combustible"
+            class="form-select"
           >
-            <option disabled value="">Seleccione una marca</option>
-            <option
-              v-for="opcion in opcionesMarca"
-              :key="opcion"
-              :value="opcion"
-            >
-              {{ opcion }}
+            <option disabled value="">Seleccione</option>
+            <option>Gasolina</option>
+            <option>Diésel</option>
+            <option>Híbrido</option>
+            <option>GLP</option>
+            <option>Eléctrico</option>
+          </select>
+        </div>
+        <div class="col-12 col-md-4">
+          <label for="transmision" class="form-label">Transmisión:</label>
+          <select
+            id="transmision"
+            v-model="vehiculo.transmision"
+            class="form-select"
+          >
+            <option disabled value="">Seleccione</option>
+            <option>Manual</option>
+            <option>Automática</option>
+          </select>
+        </div>
+        <div class="col-12 col-md-4">
+          <label for="potencia" class="form-label">Potencia (CV):</label>
+          <input
+            type="number"
+            id="potencia"
+            v-model="vehiculo.potencia_cv"
+            class="form-control"
+          />
+        </div>
+      </div>
+
+      <!-- FILA: Descripción -->
+      <div class="row g-3 mt-2">
+        <div class="col-12">
+          <label for="descripcion" class="form-label">Descripción:</label>
+          <textarea
+            id="descripcion"
+            v-model="vehiculo.descripcion"
+            rows="3"
+            class="form-control"
+            placeholder="Describe el estado, revisiones, etc."
+          ></textarea>
+        </div>
+      </div>
+
+      <h6 class="text-center fw-semibold bg-primary-subtle py-2 rounded mt-3">
+        <i class="bi bi-person me-2"></i>Cliente Ubicación
+      </h6>
+
+      <!-- FILA: Provincia, Ciudad, Fecha Publicación -->
+      <div class="row g-3 mt-3">
+        <div class="col-12 col-md-4">
+          <label for="provincia" class="form-label">Provincia:</label>
+          <select
+            id="provincia"
+            v-model="vehiculo.ubicacion.provincia"
+            class="form-select"
+            @change="filtrarCiudades"
+          >
+            <option disabled value="">Seleccione provincia</option>
+            <option v-for="prov in provincias" :key="prov.id" :value="prov.nm">
+              {{ prov.nm }}
             </option>
           </select>
-          </div>
-      </div>
-    <div
-        class="d-flex justify-content-center align-items-center mt-2 me2 gap-5"
-      >
-        <label for="combustible1"
-          >Diesel:
+        </div>
+        <div class="col-12 col-md-4">
+          <label for="ciudad" class="form-label">Ciudad:</label>
+          <select
+            id="ciudad"
+            v-model="vehiculo.ubicacion.ciudad"
+            class="form-select"
+          >
+            <option disabled value="">Seleccione ciudad</option>
+            <option
+              v-for="mun in municipiosFiltrados"
+              :key="mun.id"
+              :value="mun.nm"
+            >
+              {{ mun.nm }}
+            </option>
+          </select>
+        </div>
+        <div class="col-12 col-md-4">
+          <label for="fecha_publicacion" class="form-label"
+            >Fecha Publicación:</label
+          >
           <input
-            type="radio"
-            v-model="nuevoModelo.combustible"
-            value="Diesel"
-            class="form-input"
-        />
-    </label>
-    <label for="combustible2"
-          >Gasolina:
-          <input
-            type="radio"
-            v-model="nuevoModelo.combustible"
-            value="Gasolina"
-            class="form-input"
-        /></label>
-    <label for="combustible3"
-          >Eléctrico:
-          <input
-            type="radio"
-            v-model="nuevoModelo.combustible"
-            value="Eléctrico"
-            class="form-check-input"
-        /></label>
-        
+            type="date"
+            id="fecha_publicacion"
+            v-model="vehiculo.fecha_publicacion"
+            class="form-control"
+          />
+        </div>
       </div>
 
-      <div
-        class="form-check form-check d-flex justify-content-end align-items-center mt-2 me-2"
-      >
-        <label for="ITV"
-          >ITV
+      <!-- FILA: Contacto -->
+      <div class="row g-3 mt-2">
+        <div class="col-12 col-md-4">
+          <label for="contacto_nombre" class="form-label"
+            >Nombre Contacto:</label
+          >
           <input
-            type="checkbox"
-            v-model="nuevoModelo.itv"
-            class="form-check-input"
-        /></label>
+            type="text"
+            id="contacto_nombre"
+            v-model="vehiculo.contacto.nombre"
+            class="form-control"
+          />
+        </div>
+        <div class="col-12 col-md-4">
+          <label for="contacto_telefono" class="form-label">Teléfono:</label>
+          <input
+            type="tel"
+            id="contacto_telefono"
+            v-model="vehiculo.contacto.telefono"
+            class="form-control"
+          />
+        </div>
+        <div class="col-12 col-md-4">
+          <label for="contacto_email" class="form-label">Email:</label>
+          <input
+            type="email"
+            id="contacto_email"
+            v-model="vehiculo.contacto.email"
+            class="form-control"
+          />
+        </div>
       </div>
-      <!-- Botón de acción: Añadir o Modificar -->
-      <button
-        type="submit"
-        class="btn btn-primary mt-3"
-      >
-        {{ editando ? "Modificar" : "Añadir" }}
-      </button>
+
+      <!-- FILA: Estado y botón -->
+      <div class="row g-3 align-items-end mt-3">
+        <div class="col-12 col-md-8">
+          <label class="form-label">Estado:</label>
+          <select v-model="vehiculo.estado" class="form-select">
+            <option value="disponible">Disponible</option>
+            <option value="vendido">Vendido</option>
+            <option value="reservado">Reservado</option>
+          </select>
+        </div>
+        <div class="col-12 col-md-4">
+          <button type="submit" class="btn btn-primary w-100">
+            {{ editando ? "Modificar" : "Guardar" }}
+          </button>
+        </div>
+      </div>
     </form>
-
-    <!-- Tabla que muestra la lista de modelos cargados -->
-    <table
-      class="table table-bordered table-striped table-hover table-sm align-middle table-responsive"
-    >
-      <thead class="thead-dark table-primary text-center">
-        <tr>
-            <th>Nombre</th>
-            <th>Matrícula</th>
-            <th>Dueño</th>
-            <th>Tipo</th>
-            <th>Marca</th>
-            <th>Combustible</th>
-            <th>Acciones</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="modelo in modelos" :key="modelo.id">
-            <td>{{ modelo.nombre }}</td>
-            <td>{{ modelo.matricula }}</td>
-            <td>{{ modelo.dueno }}</td>
-            <td>{{ modelo.tipo }}</td> 
-            <td>{{ modelo.marca }}</td>
-            <td>{{ modelo.combustible }}</td>
-            <td class="align-middle text-center">
-
-            <!-- Botón para eliminar un modelo -->
-            <button
-              class="btn btn-danger btn-sm border-0 ms-4 me-2 shadow-none rounded-0"
-              @click="borrarModelo(modelo.id)"
-            >
-              <i class="bi bi-trash"></i>
-            </button>
-
-            <!-- Botón para editar un modelo -->
-            <button
-              class="btn btn-warning btn-sm shadow-none rounded-0"
-              @click="editarModelo(modelo.id)"
-            >
-              <i class="bi bi-pencil"></i>
-            </button>
-            <button
-              v-if="modelo.historico === true"
-              @click="rotoModelo(modelo)"
-              class="btn btn-secondary btn-sm ms-2 border-0 shadow-none rounded-0"
-              title="Activar cliente"
-            >
-              <i class="bi bi-unlock"></i>
-            </button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
-import Swal from 'sweetalert2';
-import { 
-    getModelos, 
-    addModelo, 
-    updateModelo, 
-    deleteModelo
-} from '../api/modelos.js';
+import { ref, computed } from "vue";
 
-// Variable reactiva para almacenar la lista de modelos
-const modelos = ref([]);
-const nuevoModelo = ref({
-  nombre: '',
-  matricula: '',
-  tipo: '',
-  dueno: '',
-  marca: '',
-  combustible: '',
-  roto: false,
-  itv: false
+const vehiculo = ref({
+  tipo: "",
+  marca: "",
+  modelo: "",
+  anio: "",
+  kilometros: "",
+  precio: "",
+  matricula: "",
+  combustible: "",
+  transmision: "",
+  potencia_cv: "",
+  descripcion: "",
+  ubicacion: {
+    provincia: "",
+    ciudad: "",
+  },
+  contacto: {
+    nombre: "",
+    telefono: "",
+    email: "",
+  },
+  fecha_publicacion: "",
+  estado: "disponible",
 });
 
-async function cargarModelos() {
-    try {
-        Swal.fire({
-            icon: 'success',
-            title: 'Listando Modelos...',
-            showConfirmButton: false,
-            timer: 1500
-    });
-    modelos.value = await getModelos();
-    } catch (error) {
-        console.error('Error al cargar los modelos:', error);
-    }
-}
+const tiposVehiculo = ref(["coche", "moto", "furgoneta", "camión"]);
+const tiposCombustible = ref(["gasolina", "diésel", "híbrido", "eléctrico"]);
 
+const provincias = ref([
+  { id: 1, nm: "A Coruña" },
+  { id: 2, nm: "Lugo" },
+  { id: 3, nm: "Ourense" },
+  { id: 4, nm: "Pontevedra" },
+]);
 
-const opcionesMarca = [
-    'Toyota',
-    'Ford',
-    'Chevrolet',
-    'Honda',
-    'Nissan',
-    'Volkswagen',
-    'BMW',
-    'Mercedes-Benz',
-    'Audi',
-    'Hyundai',
-    'Citroen',
-    'Kia',
-    'Peugeot',
-    'Renault',
-];
-const opcionesTipo = [
-    'Deportivo',
-    'Turismo',
-    'Todoterreno',
-    'Camión'
-];
-const editando = ref(false);
-const modeloEditandoId = ref("");
+const municipios = ref([
+  { id: 1, nm: "Santiago de Compostela", prov: "A Coruña" },
+  { id: 2, nm: "Ferrol", prov: "A Coruña" },
+  { id: 3, nm: "Lugo", prov: "Lugo" },
+  { id: 4, nm: "Monforte de Lemos", prov: "Lugo" },
+  { id: 5, nm: "Ourense", prov: "Ourense" },
+  { id: 6, nm: "Vigo", prov: "Pontevedra" },
+  { id: 7, nm: "Pontevedra", prov: "Pontevedra" },
+]);
 
-onMounted(async () => {
-    await cargarModelos();
-});
-
-async function guardarModelo(){
-    if(!nuevoModelo.value.nombre.trim() || !nuevoModelo.value.matricula.trim() || !nuevoModelo.value.dueno.trim() || !nuevoModelo.value.tipo.trim() || !nuevoModelo.value.marca.trim() || !nuevoModelo.value.combustible.trim()){
-        alert("Por favor, complete todos los campos obligatorios.");
-        return;
-    }
-    const result = await Swal.fire({
-        title: editando.value ? '¿Modificar modelo?' : '¿Añadir modelo?',
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonText: editando.value ? 'Modificar' : 'Añadir',
-        cancelButtonText: 'Cancelar'
-    });
-    if(!result.isConfirmed){return}
-    
-    if(editando.value){
-        const index = modelos.value.findIndex(modelo => modelo.id === modeloEditandoId.value.id);
-        // si existen objetos
-        if(index !== -1){ // copia todo lo de dentro y se lo pasa como copia
-            modelos.value[index] = {...nuevoModelo.value};
-        }
-        try {
-            await updateModelo(modeloEditandoId.value, nuevoModelo.value);
-            Swal.fire({
-                icon: 'success',
-                title: 'Modelo modificado correctamente',
-                showConfirmButton: false,
-                timer: 1500
-            });
-        } catch (error) {
-            console.error('Error al actualizar el modelo:', error);
-            Swal.fire({
-                icon: 'error',
-                title: 'Error al modificar el modelo',
-                text: 'Por favor, inténtelo de nuevo más tarde.',
-                showConfirmButton: false,
-                timer: 1500
-            });
-        }
-} else {
-    const modeloNuevo = {
-        id:String(modelos.value.length > 0 ? modelos.value.length + 1 : 1),
-        nombre: nuevoModelo.value.nombre,
-        matricula:nuevoModelo.value.matricula.toUpperCase(),
-        dueno: nuevoModelo.value.dueno,
-        tipo: nuevoModelo.value.tipo,
-        marca: nuevoModelo.value.marca,
-        combustible: nuevoModelo.value.combustible,
-        roto: nuevoModelo.value.roto,
-        itv: nuevoModelo.value.itv
-    }
-    try{
-        await addModelo(modeloNuevo);
-        modelos.value.push(modeloNuevo);
-        Swal.fire({
-            icon: 'success',
-            title: 'Nuevo modelo añadido correctamente',
-            showConfirmButton: false,
-            timer: 1500
-        });
-    }catch (error) {
-        console.error("Fallo al añadir el nuevo modelo a la BBDD", error)
-    }
-}
-    limpiarPagina();
-}
-
-async function borrarModelo(id){
-    try {
-        const result = await Swal.fire({
-            title: '¿Eliminar modelo?',
-            text: "Esta acción no se puede deshacer.",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonText: 'Eliminar',
-            cancelButtonText: 'Cancelar'
-        });
-        if(!result.isConfirmed){
-            return;
-        }
-        await deleteModelo(id);
-        modelos.value = modelos.value.filter((modelo) => modelo.id !== id);
-        Swal.fire({
-            icon: 'success',
-            title: 'Modelo eliminado correctamente',
-            showConfirmButton: false,
-            timer: 1500
-        });
-    } catch (error) {
-        console.error('Error al eliminar el modelo:', error);
-        Swal.fire({
-            icon: 'error',
-            title: 'Error al eliminar el modelo',
-            text: 'Por favor, inténtelo de nuevo más tarde.',
-            showConfirmButton: false,
-            timer: 1500
-        });
-    }
-}
-
-async function editarModelo(id) {
-    editando.value = true;
-    nuevoModelo.value = {...modelos.value.find((modelo) => modelo.id === id)};
-
-    modeloEditandoId.value = id;
-}
-
-function limpiarPagina() {
-    nuevoModelo.value = {
-        nombre: '',
-        matricula: '',
-        tipo: '',
-        dueno: '',
-        marca: '',
-        combustible: '',
-        roto: false,
-        itv: false
-    };
-    editando.value = false;
-    modeloEditandoId.value = "";
-}   
-
-const capitalizarTexto = (propiedad) => {
-    if (!nuevoModelo.value[propiedad]) return;
-    nuevoModelo.value[propiedad] = nuevoModelo.value[propiedad]
-        .split(" ")
-        .map(
-            (palabra) =>
-                palabra.charAt(0).toUpperCase() + palabra.slice(1).toLowerCase()
-    )
-    .join(" ");
-};
-
+const municipiosFiltrados = computed(() =>
+  municipios.value.filter((m) => m.prov === vehiculo.value.ubicacion.provincia)
+);
 </script>
-
-<style scoped>
-
-</style>
+<style></style>
