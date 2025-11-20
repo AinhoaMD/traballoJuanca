@@ -4,11 +4,18 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import path from 'path';
 
+import articulosRoutes from "./articulosRoutes";
+import { fileURLToPath } from "url";
+
 //dotenv.config(path.resolve(process.cwd(), "env"));
 dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
-const MONGODB_URI = process.env.MONGODB_URI;
+// const MONGODB_URI = process.env.MONGODB_URI;
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Middleware
 app.use(cors());
