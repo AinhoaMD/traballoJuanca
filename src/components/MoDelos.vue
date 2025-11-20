@@ -99,6 +99,21 @@
             required
           />
         </div>
+
+        <!-- FILA: Imagen del vehículo -->
+         <div class="row g-3 align-items-center mb-3">
+          <div class="col-12 col-md d-flex alignt-items-center">
+            <label for="foto" class="form-label mb-0 me-2 text-nowrap">Imagen del vehículo: </label>
+            <input
+              type="file"
+              id="foto"  
+              accept="image/*"
+              @change="onFileChange"
+              class="form-control-file col-md-10 border rounded-0 shadow-none btn-file-azul"
+              >
+          </div>
+         </div>
+
         <div class="col-12 col-md-5">
           <label for="precio" class="form-label">Precio (€):</label>
           <input
@@ -319,5 +334,62 @@ const municipios = ref([
 const municipiosFiltrados = computed(() =>
   municipios.value.filter((m) => m.prov === vehiculo.value.ubicacion.provincia)
 );
+
+
+const onFileChange = (event) => {
+    const file = event.target.files[0];
+  };
+
+// Enviar datos al backend
+const guardarVehiculo = async () => {
+  try {
+    const formData = new FormData();
+
+    // Solo añadir imagen si hay archivo seleccionado
+    if (archivo.value) {
+      formData.append("imagen", archivo.value);
+    }
+
+    formData.append("vehiculo", JSON.stringify(vehiculo.value));
+
+    const nuevo = await addArticulo(formData);
+
+    if (nuevo && nuevo._id) {
+      Swal.fire({
+        icon: "success",
+        title: "Vehículo guardado",
+        text: "El vehículo ha sido guardado correctamente.",
+        timer: 2000,
+        showConfirmButton: false
+      });
+    } else {
+      console.error("Error al guardar el vehículo");
+    }
+
+    // Limpiar formulario
+    Object.assign(vehiculo.value, {
+      tipo: "",
+      matricula: "",
+      marca: "",
+      modelo: "",
+      anio: "",
+      estado: "disponible",
+      kilometros: "",
+      precio: "",
+      combustible: "",
+      transmision: "",
+      potencia_cv: "",
+      descripcion: "",
+      ubicacion: { provincia: "", ciudad: "" },
+      contacto: { nombre: "", telefono: "", email: "" },
+      fecha_publicacion: ""
+    });
+    archivo.value = null;
+
+  } catch (error) {
+    console.error("Error al guardar:", error);
+  }
+};
+
 </script>
 <style></style>

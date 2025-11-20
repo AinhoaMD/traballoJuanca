@@ -33,8 +33,14 @@ const ArticuloSchema = new mongoose.Schema(
     fecha_publicacion: {
       type: Date,
       default: Date.now
+    },
+    // NUEVO CAMPO PARA GUARDAR LA IMAGEN
+    imagen: {
+      type: String,
+      required: false
     }
   },
+  // Nombre de la colección en la base de datos
   {
     collection: "articulos"
   }
