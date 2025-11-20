@@ -383,7 +383,7 @@ const filtrarMunicipios = () => {
   );
 
   //  opcional: resetear el municipio si ya no corresponde
-  nuevoCliente.value.municipio = '';
+  vehiculo.value.ubicacion.ciudad = '';
 };
 
 const capitalizarNombreContacto = () => {
