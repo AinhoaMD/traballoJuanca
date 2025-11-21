@@ -1,317 +1,399 @@
 <template>
-    <div class="container-fluid my-1 p-3 border rounded-0 shadow-sm bg-light">
-        <h4 class="text-center my-2">Citas Taller</h4>
-        <form @submit.prevent="guardarCita" class="mb-4">
+  <div class="container-fluid my-2 p-2 border rounded-0 shadow-sm bg-light">
+    <h5 class="text-center bg-primary-subtle py-1">
+      <i class="bi bi-wrench me-2"></i>Citas Taller
+    </h5>
 
-            <div class="col-12 col-md-3">
-                <label for="matricula" class="form-label">Matricula:</label>
-                <input
-                    type="text"
-                    id="matricula"
-                    class="form-control"
-                    v-model="cita.matricula"
-                    required
-                    maxlength="10"
-                />
-            </div>
+    <!-- Formulario -->
+    <div class="container-lg mx-auto">
+    <form @submit.prevent="guardarCita" class="mb-3 mt-2">
+      <div class="row g-3 align-items-center">
+        <!-- Matrícula -->
+        <div class="col-12 col-md-3 d-flex align-items-center">
+          <label for="matricula" class="form-label mb-0 me-2 text-nowrap align-middle">Matrícula:</label>
+          <input
+            id="matricula"
+            type="text"
+            v-model="nuevaCita.matricula"
+            class="form-control text-center rounded-0 shadow-none border"
+            @blur="capitalizarMatricula"
+            required
+          />
+        </div>
 
-            <div class="col-md-3">
-                <label for="movil" class="form-label">Móvil:</label>
-                <input type="tel" id="movil" class="form-control" v-model="cita.movilCliente" required />
-            </div>
+        <!-- Móvil Cliente -->
+        <div class="col-12 col-md-3 d-flex align-items-center">
+          <label for="movilCliente" class="form-label mb-0 me-2 text-nowrap align-middle">Móvil Cliente:</label>
+          <input
+            id="movilCliente"
+            type="tel"
+            v-model="nuevaCita.movilCliente"
+            class="form-control text-center rounded-0 shadow-none border"
+            @blur="verificarCliente"
+            required
+          />
+        </div>
 
-            <div class="col-md-4">
-            <label for="fecha_cita" class="form-label">Fecha de Cita:</label>
-                <div class="input-group">
-                    <input type="date" id="fecha_cita" class="form-control" v-model="cita.fechaCita" required />
-                </div>
-                <!-- <button type="button" class="btn btn-secondary shadow-none rounded-0" >
-                    <i class="bi bi-arrow-clockwise"></i>
-                    </button> -->
-            </div>
+        <!-- Fecha Cita -->
+        <div class="col-12 col-md-3 d-flex align-items-center">
+          <label for="fechaCita" class="form-label mb-0 me-2 text-nowrap align-middle">Fecha Cita:</label>
+          <input
+            id="fechaCita"
+            type="date"
+            v-model="nuevaCita.fechaCita"
+            class="form-control text-center rounded-0 shadow-none border"
+            required
+          />
+        </div>
 
-            <div class="col-12 col-md-4">
-                <label for="servicio" class="form-label">Servicio:</label>
-                <select
-                    id="servicio"
-                    class="form-select"
-                    v-model="cita.servicioTaller"
-                    required
-                    >
-                    <option disabled value="">Seleccione</option>
-                    <option
-                        v-for="servicio in servicios" 
-                        :value="servicio">
-                        {{servicio }}
-                    </option>
-                </select>
-            </div>
+        <!-- Botón limpiar -->
+        <div class="col-12 col-md-1 d-flex justify-content-end">
+          <button
+            type="button"
+            class="btn btn-light border rounded-0 shadow-none"
+            title="Limpiar formulario"
+            @click="limpiarFormulario"
+          >
+            <i class="bi bi-arrow-clockwise"></i>
+          </button>
+        </div>
+      </div>
+    
+<!-- Servicio y Estado -->
+<div class="row g-3 align-items-center mt-2">
+  <div class="col-12 col-md-4 d-flex align-items-center">
+    <label for="servicioTaller" class="form-label mb-0 me-3 text-nowrap align-middle">Servicio:</label>
+    <select
+      id="servicioTaller"
+      v-model="nuevaCita.servicioTaller"
+      class="form-select rounded-0 shadow-none border"
+      required
+    >
+      <option disabled value="">Seleccione servicio</option>
+      <option v-for="servicio in serviciosTaller" :key="servicio" :value="servicio">
+        {{ servicio }}
+      </option>
+    </select>
+  </div>
 
-            Estado:
-            <div class="form-check">
-              <input
-                class="form-check-input"
-                type="radio"
-                name="estado"
-                id="tipo-furgoneta"
-                value="furgoneta"  
-                v-model="cita.estadoCita"
-                checked
-              />
-
-              <label class="form-check-label" for="tipo-furgoneta"
-                >Pendiente</label>
-            </div>
-
-            <div class="form-check">
-              <input
-                class="form-check-input"
-                type="radio"
-                name="estado"
-                id="tipo-moto"
-                v-model="cita.estadoCita"
-                value="moto"
-                />
-              <label class="form-check-label" for="tipo-moto">Finalizado</label>
-            </div>
-
-            <div class="form-check">
-                <input type="checkbox" id="acepta" class="form-check-input" v-model="cita.acepta" required />
-                <label for="acepta" class="form-check-label">
-                    Acepta
-                </label>
-            </div>
-
-            <div id="botones">
-                <button type="submit" class="btn btn-primary w-30">
-                    Grabar
-                </button>
-                
-                <button type="reset" class="btn btn-primary w-30">
-                    <i class="bi bi-arrow-clockwise"></i>
-                </button>
-            </div>
-
-        </form>
+<div class="col-12 col-md-3 ms-4 d-flex align-items-center">
+  <label class="form-label mb-0 me-3 text-nowrap align-middle">Estado:</label>
+  <div class="d-flex gap-3">
+    <div class="form-check">
+      <input
+        class="form-check-input"
+        type="radio"
+        name="estadoCita"
+        id="pendiente"
+        value="Pendiente"
+        v-model="nuevaCita.estadoCita"
+        required
+      />
+      <label class="form-check-label" for="pendiente">Pendiente</label>
+    </div>
+    <div class="form-check">
+      <input
+        class="form-check-input"
+        type="radio"
+        name="estadoCita"
+        id="finalizado"
+        value="Finalizado"
+        v-model="nuevaCita.estadoCita"
+      />
+      <label class="form-check-label" for="finalizado">Finalizado</label>
+        </div>
+    </div>
     </div>
 
-        <!-- Tabla -->
-    <div class="table-responsive mt-4">
-      <table
-        class="table table-hover table-bordered align-middle text-center table-striped"
-      >
-        <thead class="table-primary">
+</div>
+
+        <!-- Checkbox centrado -->
+        <div class="row g-3 justify-content-center mt-3">
+        <div class="col-auto d-flex align-items-center">
+            <input
+            type="checkbox"
+            id="acepta"
+            v-model="nuevaCita.acepta"
+            class="form-check-input me-2"
+            />
+            <label for="acepta" class="form-check-label">Acepta presupuesto</label>
+        </div>
+        </div>
+
+        <!-- Botón justo debajo -->
+        <div class="row g-3 justify-content-center mt-2">
+        <div class="col-auto">
+            <button type="submit" class="btn btn-primary px-4 rounded-0 shadow-none">
+            {{ editando ? 'Modificar' : 'Grabar' }}
+            </button>
+        </div>
+        </div>
+
+    </form>
+    </div>
+
+    <hr class="border border-1 border-secondary rounded">
+
+    <!-- Tabla Citas -->
+    <div class="table-responsive mt-1">
+      <h6 class="text-center mb-1 bg-secondary text-white">Listado de Citas</h6>
+      <table class="table table-bordered table-striped table-hover table-sm align-middle">
+        <thead class="table-primary text-center">
           <tr>
             <th>ID</th>
-            <th>Fecha</th>
             <th>Matrícula</th>
             <th>Móvil</th>
+            <th>Fecha</th>
             <th>Servicio</th>
             <th>Estado</th>
-            <th>Botones</th>
+            <th>Acepta</th>
+            <th>Acciones</th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="cita in citas" :key="citas.id">
-            <td>{{  cita.id }}</td>
-            <td>{{  cita.fecha }}</td>
-            <td>{{  cita.matricula }}</td>
-            <td>{{ cita.movilCliente}}</td>
-            <td>{{  cita.servicioTaller }}</td>
-            <td>{{ cita.estadoCita }}</td>
-            <td><button
-                class="btn btn-sm btn-danger me-2 shadow-none"
-                @click="borrarCita(cita.id)"
-                >
+          <tr v-for="(cita, index) in citasPaginadas" :key="cita.id">
+            <td class="text-center">{{ (currentPage - 1) * citasPorPage + index + 1 }}</td>
+            <td class="text-center">{{ cita.matricula }}</td>
+            <td class="text-center">{{ cita.movilCliente }}</td>
+            <td class="text-center">{{ cita.fechaCita }}</td>
+            <td class="text-center">{{ cita.servicioTaller }}</td>
+            <td class="text-center">{{ cita.estadoCita }}</td>
+            <td class="text-center">{{ cita.acepta ? 'Sí' : 'No' }}</td>
+            <td class="text-center">
+              <button class="btn btn-warning btn-sm me-2" @click="editarCita(cita)">
+                <i class="bi bi-pencil"></i>
+              </button>
+              <button class="btn btn-danger btn-sm" @click="eliminarCita(cita.id)">
                 <i class="bi bi-trash"></i>
               </button>
-              <button type="button" class="btn btn-primary w-30">
-                    Editar
-                </button>
             </td>
           </tr>
         </tbody>
       </table>
-    </div>
+      <!-- Navegación de página-->
+       <div class="d-flex justify-content-center my-3">
+        <button class="btn btn-outline-primary btn-sm me-2 rounded-0 border-1 shadow-none" 
+        @click = "beforePagina" :disabled="currentPage <= 1">
+          <i class="bi bi-chevron-left "></i>
+        </button>
+        <span class="mx-3 align-self-center text-muted">Página {{ currentPage  }}</span>
+        <button class="btn btn-outline-primary btn-sm rounded-0 border-1 shadow-none" 
+        @click="nextPagina" :disabled="currentPage >= totalPages">
+         <i class="bi bi-chevron-right "></i>
+        </button>
+       </div>
 
-    <!-- Paginación -->
-    <div class="d-flex justify-content-center align-items-center gap-2 my-3">
-      <button class="btn btn-outline-primary btn-sm rounded-0 border-1 shadow-none" @click="beforePagina" :disabled="currentPage <= 1">
-        <i class="bi bi-chevron-left"></i>
-      </button>
-      <span class="text-muted">Página {{ currentPage }}</span>
-      <button class="btn btn-outline-primary btn-sm rounded-0 border-1 shadow-none" @click="nextPagina" :disabled="currentPage >= totalPages">
-        <i class="bi bi-chevron-right"></i>
-      </button>
     </div>
+  </div>
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
-import {
-    getCitas,
-    addCita,
-    deleteCita,
-    updateCita
-} from "@/api/taller.js"
-import Swal from "sweetalert2";
+// Importaciones, Dependencias y Reactividad
+import { ref, onMounted, computed } from 'vue'
+import Swal from 'sweetalert2'
+import { getCitasTaller,  addCitaTaller, updateCitaTaller, deleteCitaTaller } from '@/api/taller.js'
+import { getClientes } from '@/api/clientes.js'
 
-const cita = ref({
-    id: "",
-    matricula: "",
-    movilCliente: "",
-    fechaCita: "",
-    servicioTaller: "",
-    estadoCita: "",
-    acepta: true
+const nuevaCita = ref({
+  matricula: '',
+  movilCliente: '',
+  fechaCita: '',
+  servicioTaller: '',
+  estadoCita: 'Pendiente',
+  acepta: false
 })
 
-const citas = ref([]);
-const servicios = ["revision", "preitv", "neumaticos", "frenos", "cambio-aceite"]
-const editando = ref(false);
-const currentPage = ref(1);
+// Estado reactivo
+const citas = ref([])
+const editando = ref(false)
+const idEditando = ref(null)
+const cargando = ref(false)
+const currentPage = ref(1); 
+const numcitas = ref(0)
+const citasPorPage = 5
+const clientes = ref([]) // Suponiendo que tienes una lista de clientes cargada en algún lugar
 
 
+const serviciosTaller = ref([
+  'Revisión',
+  'Pre ITV',
+  'Neumáticos',
+  'Frenos',
+  'Cambio de aceite'
+])
+
+
+// Cargar datos al montar
 onMounted(async () => {
-  await cargarCitas();
+  cargarCitas()
+  const data2 = await getClientes()
+  clientes.value = data2
+  currentPage.value = 1;
+  cargando.value =false;
+})
+
+const totalPages = computed(() => {
+  return Math.max(1, Math.ceil(numcitas.value / citasPorPage))
+})
+
+const citasPaginadas  = computed(() => {
+  const start = (currentPage.value - 1) * citasPorPage;
+  const end = start + citasPorPage;
+  return citas.value.slice(start, end);
 });
 
+// Métodos de paginación
 const beforePagina = () => {
-  if (currentPage.value > 1) currentPage.value--;
+  if (currentPage.value > 1) {
+    currentPage.value--;
+  }
 };
 
 const nextPagina = () => {
-  if (currentPage.value < totalPages.value) currentPage.value++;
+  const totalPages = Math.ceil(numcitas.value / citasPorPage); 
+  //redondear hacia arriba para mostrar la última página aunque no esté completa
+  if (currentPage.value < totalPages) {
+    currentPage.value++;
+  }
 };
 
-async function cargarCitas() {
+
+////////// Funciones CRUD
+
+const cargarCitas = async () => {
   try {
-    Swal.fire({
-      icon: "success",
-      title: "Listando Modelos...",
-      showConfirmButton: false,
-      timer: 1500,
-    });
-    citas.value = await getCitas();
+    const data = await getCitasTaller()
+    citas.value = data
+    numcitas.value = data.length
+    currentPage.value = 1;
   } catch (error) {
-    console.error("Fallo al cargar los datos de la bbdd", error);
-  }
+    console.error('Error al cargar las citas del taller:', error)
+    Swal.fire({
+      icon: 'error',
+      title: 'Error al cargar las citas del taller',
+      text: error.message || 'Ha ocurrido un error inesperado.',
+    })
+  } finally {
+    cargando.value = false
+  } 
 }
 
-async function guardarCita() {
-  const result = await Swal.fire({
-    title: "Guardar"
-      ? "¿Desea modificar este modelo?"
-      : "¿Desea añadir este modelo?",
-    icon: "warning",
-    showCancelButton: true,
-    cancelButtonText: "Cancelar",
-  });
-  if (!result.isConfirmed) {
-    return;
+const guardarCita = async () => {
+  if (!nuevaCita.value.acepta) {
+    Swal.fire({
+      icon: 'warning',
+      title: 'Debe aceptar el presupuesto antes de guardar.',
+      timer: 2000,
+      showConfirmButton: false
+    })
+    return
   }
 
   if (editando.value) {
-    const index = citas.value.findIndex(
-      (cita) => cita.id === modeloEditandoId.value
-    );
-    if (index !== -1) {
-      modelos.value[index] = { ...nuevoModelo.value };
-    }
-    try {
-      await updateModelo(modeloEditandoId.value, nuevoModelo.value);
-      Swal.fire({
-        icon: "success",
-        title: "Modelo modificado",
-        showConfirmButton: false,
-        timer: 1500,
-      });
-    } catch (error) {
-      console.error("Error al actualizar moodelo", error);
-      Swal.fire({
-        icon: "error",
-        title: "Error al modificar modelo",
-        text: "Inténtelo de nuevo o contacte con el administrador.",
-        showConfirmButton: false,
-        timer: 1500,
-      });
-    }
+    await updateCitaTaller(idEditando.value, nuevaCita.value)
+    Swal.fire({ icon: 'success', title: 'Cita modificada', timer: 1500, showConfirmButton: false })
   } else {
-    const citaNueva = {
-      id: String(
-        // Si hay elementos en el array modelos...
-        citas.value.length > 0
-          ? // Reducimos el array para encontrar el mayor id numérico existente
-            citas.value.reduce(
-              // Función reductora: compara el acumulador 'max' con el id actual convertido a número y devuelve el mayor
-              (max, cita) => Math.max(max, Number(cita.id)),
-              0 // Valor inicial para el máximo es 0 (si el array está vacío)
-            ) +
-              // Sumamos 1 al máximo para obtener el nuevo id único
-              1
-          : // Si el array está vacío, el primer id será 1
-            1
-      ),
-        matricula: cita.value.matricula.toUpperCase(),
-        movilCliente: cita.value.movilCliente,
-        fechaCita: cita.value.fechaCita,
-        servicioTaller: cita.value.servicioTaller,
-        estadoCita: cita.value.estadoCita,
-        acepta: true,
-    };
-    try {
-      await addCita(citaNueva);
-      citas.value.push(citaNueva);
-      Swal.fire({
-        icon: "success",
-        title: "Modelo agregado",
-        showConfirmButton: false,
-        timer: 1500,
-      });
-    } catch (error) {
-      console.error("Fallo al añadir la cita a la BBDD", error);
-      Swal.fire({
-        icon: "error",
-        title: "Error al añadir modelo",
-        text: "Inténtelo de nuevo o contacte con el administrador.",
-        showConfirmButton: false,
-        timer: 1500,
-      });
-    }
+    await addCitaTaller(nuevaCita.value)
+    Swal.fire({ icon: 'success', title: 'Cita guardada', timer: 1500, showConfirmButton: false })
+  }
+  await cargarCitas()
+  limpiarFormulario()
+}
+
+const editarCita = (cita) => {
+  nuevaCita.value = { ...cita }
+  idEditando.value = cita.id
+  editando.value = true
+}
+
+const eliminarCita = async (id) => {
+  const confirm = await Swal.fire({
+    title: '¿Eliminar cita?',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonText: 'Eliminar',
+    cancelButtonText: 'Cancelar'
+  })
+  if (!confirm.isConfirmed) return
+  await deleteCitaTaller(id)
+  await cargarCitas()
+  Swal.fire({ icon: 'success', title: 'Cita eliminada', timer: 1500, showConfirmButton: false })
+}
+
+///////// Funciones Auxiliares
+
+const limpiarFormulario = () => {
+  nuevaCita.value = {
+    matricula: '',
+    movilCliente: '',
+    fechaCita: '',
+    servicioTaller: '',
+    estadoCita: 'Pendiente',
+    acepta: false
+  }
+  editando.value = false
+  idEditando.value = null
+}
+
+const verificarCliente = () => {
+  // Primero validar formato del móvil
+  if (!validarMovil()) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Número no válido',
+      text: 'Debe comenzar por 6 o 7 y tener 9 dígitos.',
+      timer: 2000,
+      showConfirmButton: false
+    })
+    return
+  }
+
+  // Después comprobar si existe en la BD
+  const movil = nuevaCita.value.movilCliente.trim()
+  if (!movil) return
+
+  const existe = clientes.value.some(c => c.movil === movil)
+
+  if (!existe) {
+    Swal.fire({
+      icon: 'warning',
+      title: 'Cliente no encontrado en la base de datos',
+      text: 'Verifique el número o regístrelo primero.',
+      timer: 2000,
+      showConfirmButton: false
+    })
+  } else {
+    Swal.fire({
+      icon: 'success',
+      title: 'Cliente en Base de Datos',
+      timer: 1500,
+      showConfirmButton: false
+    })
   }
 }
 
-async function borrarCita(id) {
-  try {
-    const result = await Swal.fire({
-      title: `¿Eliminar la cita?`,
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonText: "Sí, eliminar",
-      cancelButtonText: "Cancelar",
-    });
 
-    if (!result.isConfirmed) return;
-
-    await deleteCita(id);
-    citas.value = citas.value.filter((cita) => cita.id !== id);
-    Swal.fire({
-      icon: "success",
-      title: "Cita eliminada",
-      showConfirmButton: false,
-      timer: 1500,
-    });
-  } catch (error) {
-    console.error("Error a la hora de eliminar ", error);
-    Swal.fire({
-      icon: "error",
-      title: "Error al eliminar modelo",
-      text: "Inténtelo de nuevo o contacte con el administrador.",
-      showConfirmButton: false,
-      timer: 1500,
-    });
-  }
+function capitalizarMatricula() {
+  nuevaCita.value.matricula = nuevaCita.value.matricula.toUpperCase()
 }
+
+// Control móvil
+
+const validarMovil = () => {
+  const movilRegex = /^[67]\d{8}$/;
+  const movil = nuevaCita.value.movilCliente.trim();
+
+  if (movil === '') return true; // vacío → válido (por si aún no escribió)
+
+  return movilRegex.test(movil);
+};
+
 
 </script>
-<style scoped></style>
+
+<style scoped>
+.is-invalid {
+  border-color: #f28b82 !important;
+  background-color: #ffe6e6;
+}
+</style>

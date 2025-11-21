@@ -2,7 +2,7 @@ import axios from "axios";
 
 const API_URL = "http://localhost:3000/taller";
 
-export async function getCitas() {
+export async function getCitasTaller() {
   try {
     const res = await axios.get(API_URL);
     return res.data;
@@ -11,7 +11,7 @@ export async function getCitas() {
   }
 }
 
-export async function addCita(cita) {
+export async function addCitaTaller(cita) {
   try {
     axios.post(API_URL, cita);
   } catch (error) {
@@ -19,7 +19,7 @@ export async function addCita(cita) {
   }
 }
 
-export async function deleteCita(id) {
+export async function deleteCitaTaller(id) {
   try {
     await axios.delete(API_URL + `/${id}`);
   } catch (error) {
@@ -27,7 +27,7 @@ export async function deleteCita(id) {
   }
 }
 
-export async function updateCita(id, cita) {
+export async function updateCitaTaller(id, cita) {
   try {
     await axios.put(API_URL + `/${id}`, cita);
   } catch (error) {
