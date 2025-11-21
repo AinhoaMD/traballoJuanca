@@ -7,6 +7,7 @@ import AvisoLegal from '../components/AvisoLegal.vue';
 import PoliticaPrivacidad from '../components/PoliticaPrivacidad.vue';
 import MoDelos from '../components/MoDelos.vue';  
 import CitasTaller from '../components/CitasTaller.vue';
+import TablaLogin from '../components/TablaLogin.vue';
 
 
 const routes = [
@@ -49,6 +50,11 @@ const routes = [
     path: "/citas-taller",
     name: "CitasTaller",
     component: CitasTaller
+  },
+  {
+    path: "/login",
+    name: "TablaLogin",
+    component: TablaLogin
   }
 ];
 
