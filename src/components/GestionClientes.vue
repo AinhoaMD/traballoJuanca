@@ -206,7 +206,7 @@ import { ref, onMounted, computed } from 'vue';
 import { getClientes, addCliente, deleteCliente, updateCliente } from '@/api/clientes.js';
 import Swal from 'sweetalert2';
 import { getClientePorDni } from '../api/clientes';
-
+import bcrypt from "bcryptjs"
 const nuevoCliente = ref({
   dni: '',
   nombre: '',
@@ -266,6 +266,7 @@ const cargarClientes = () => {
 };
 
 const guardarCliente = async () => {
+  // if (!nuevoCliente.value.lopd)
   if (!avisoLegal.value) {
     Swal.fire({
       icon: 'warning',
@@ -275,6 +276,19 @@ const guardarCliente = async () => {
     });
     return;
   }
+
+  if (nuevoCliente.value.password != nuevoCliente.value.password2){
+    Swal.fire({
+      icon: "error",
+      title: "Las contraseñas no coinciden",
+      showConfirmButton: false,
+      timer: 2000,
+    })
+    return; // No continuar con el proceso si las contraseñas no coinciden
+  }
+
+  const salt = bcrypt.genSaltSync(10);
+  const hash = bcrypt.hashSync(nuevoCliente.value.password, salt)
 
   if (!editando.value) {
     const duplicado = clientes.value.find(cliente =>
@@ -292,6 +306,9 @@ const guardarCliente = async () => {
       return;
     }
   }
+
+  nuevoCliente.value.password = hash;
+  delete nuevoCliente.value.password2;
 
   const result = await Swal.fire({
     title: editando.value ? '¿Desea modificar este cliente?' : '¿Desea grabar este cliente?',
@@ -342,6 +359,7 @@ const guardarCliente = async () => {
       timer: 1500
     });
   }
+  recargaForm()
 };
 
 const editarCliente = (movil) => {
