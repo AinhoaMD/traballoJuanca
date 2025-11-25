@@ -112,6 +112,36 @@
         </div>
       </div>
 
+      <div class="row mb-3">
+        <!-- Contraseña -->
+        <div class="row g-2 justify-content-center mt-2">
+          <div class="col-md-3 d-flex mt-3 align-items-center">
+            <label class="me-2 mb-0 text-nowrap align-middle"
+              >Contraseña:</label
+            >
+            <input
+              type="password"
+              v-model="nuevoCliente.password"
+              class="form-control"
+              required
+            />
+          </div>
+
+          <!-- Repetir contraseña -->
+          <div class="col-md-3 d-flex mt-3 align-items-center ms-5">
+            <label class="me-2 mb-0 text-nowrap align-middle"
+              >Repetir Contraseña:</label
+            >
+            <input
+              type="password"
+              v-model="nuevoCliente.password2"
+              class="form-control"
+              required
+            />
+          </div>
+        </div>
+      </div>
+
       <!-- Botón Guardar -->
       <div class="text-center">
         <button type="submit" class="btn btn-primary border-0 shadow-none rounded-0" :disabled="!avisoLegal">
@@ -120,7 +150,7 @@
       </div>
     </form>
 
-    <!-- Lista de Clientes -->
+    <!-- Lista de Clientes (aquí faltaría un v-if=admin + definir admin abajo) -->
     <div class="table-responsive">
       <h4 class="text-center mb-3">Listado Clientes</h4>
       <table class="table table-bordered table-striped table-hover table-sm align-middle">
