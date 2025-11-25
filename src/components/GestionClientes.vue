@@ -219,7 +219,11 @@ const nuevoCliente = ref({
   fecha_alta: '',
   historico: true,
   lopd: false,
-  tipoCliente: ''
+  tipoCliente: '',
+  tipo: "user",
+  password: "",
+  password2: ""
+
 });
 
 const clientes = ref([]);
@@ -565,7 +569,10 @@ function recargaForm() {
     provincia: '',
     municipio: '',
     fecha_alta: '',
-    historico: true
+    historico: true,
+    tipo: "user",
+    password: "",
+    password2: ""
   };
   editando.value = false;
   clienteEditandoId.value = null;

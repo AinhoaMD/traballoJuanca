@@ -350,6 +350,7 @@
       "fecha_alta": "2006-02-09",
       "historico": true,
       "lopd": true,
+      "tipo": "user",
       "password": "$2b$10$OAEcthj11TDU/5d9voz7DOjY4zJbEghIgzHOlPqrSpoT0GT/XHpXy"
     },
     {
