@@ -50,16 +50,18 @@
   </div>
 </template>
 
-  <script>
+  <script> // Esto es un tipo de formato más antiguo pero copió y pegó uno antiguo que tenía
+
+  
   // import Swal from 'sweetalert2';
-  // import passport from  '../config/passport.mjs';
+  // // import passport from  '../config/passport.mjs';
   // import { loginUsuario } from '../api/authApi';
   
   // export default {
   //   name: "TablaLogin",
-  //   components: {
+  //   // components: {
       
-  //   },
+  //   // },
   //   data() {
   //     return {
   //       dni: "",
