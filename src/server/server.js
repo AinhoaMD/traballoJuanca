@@ -7,7 +7,7 @@ import dotenv from "dotenv";
 // a diferencia de json-server, aquí necesita configurar las rutas y controladores manualmente
 // json-server crea automáticamente las rutas basadas en el archivo JSON, mongoose requiere definir esquemas y modelos
 // MONGOSEE NO SABE NADA DE RUTAS CONTROLADRES Y MODELOS, HAY QUE CREARLOS MANUALMENTE
-
+import authRoutes from "./authRoutes.js"
 import articulosRoutes from "./articulosRoutes.js"; // ruta al router backend
 
 dotenv.config();
@@ -17,11 +17,27 @@ const PORT = process.env.PORT || 5000; // Use PORT from environment or default t
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+// app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // Middleware
-app.use(cors()); //si no funciona lo siguiente
+// app.use(cors()); //si no funciona lo siguiente
+// app.use(express.json());
+
+// Configuración de CORS
+// Permite peticiones desde tu frontend Vite
+app.use((cors({
+  origin: "http://localhost:5173", // Cambia si tu frontend usa otro puerto
+  credentials: true
+})))
+
+// Middleware para parsear JSON
 app.use(express.json());
+
+// Carpeta de uploads
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
+// Rutas de autenticación
+app.use('/api/auth', authRoutes);
 
 // Rutas DE MONGOOSE, JSON SERVER NO ES NECESARIO LAS RUTAS LAS CREA AUTOMATICAMENTE
 // json-server es un backend ya construido.
