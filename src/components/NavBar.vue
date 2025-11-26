@@ -79,11 +79,18 @@ import { ref, onMounted } from 'vue'
 
 // Estado do login
 const isLogueado = ref(false)
+const isAdmin = ref(false)
+const isUsuario = ref(false)
 const userName = ref('')
 
 // Cando o componente se monta, le localStorage (para cando montes a autenticación)
+// localStorage devuelve todo como string, así que comparamos con 'true'
+// para obter valores booleanos correctos si no están almacenados devuelve null
+// si están logueados devuelve 'true' o 'false' como string
 onMounted(() => {
   isLogueado.value = localStorage.getItem('isLogueado') === 'true'
+  isAdmin.value = localStorage.getItem('isAdmin') === 'true'
+  isUsuario.value = localStorage.getItem('isUsuario') === 'true'
   userName.value = localStorage.getItem('userName') || ''
 })
 
@@ -94,6 +101,7 @@ function logout() {
   localStorage.removeItem('userName')
   localStorage.removeItem('isAdmin')
   localStorage.removeItem('isUsuario')
+  localStorage.removeItem('token')
 
   // Actualiza estado
   isLogueado.value = false
@@ -105,14 +113,11 @@ function logout() {
 </script>
 
 <style>
-
 .navbar-dark .nav-link {
-  color: rgba(255,255,255,0.9); /* blanco suave */
+  color: rgba(255, 255, 255, 0.9);
 }
-
 .navbar-dark .nav-link:hover,
 .navbar-dark .nav-link:focus {
-  color: #fff; /* blanco intenso al pasar el ratón */
+  color: #fff;
 }
-
 </style>
