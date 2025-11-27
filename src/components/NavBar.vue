@@ -51,7 +51,9 @@
     </div>
 
     <!-- Dropdown de acceso/registro -->
-        <div class="dropdown ms-auto">
+        <!-- <div class="dropdown ms-auto"> -->
+        <div class="d-flex align-items-center ms-auto">
+          <span v-if="isLogueado" class="text-nowrap text-end text-white">{{ userName }}</span>
           <button
             class="btn btn-primary dropdown-toggle"
             type="button"
