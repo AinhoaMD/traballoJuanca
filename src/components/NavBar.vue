@@ -32,10 +32,10 @@
             <router-link to="/noticias" class="nav-link">Noticias</router-link>
           </li>
           <li>
-            <router-link to='/modelos' class="nav-link">Modelos</router-link>
+            <router-link to='/modelos' class="nav-link" v-if="admin">Modelos</router-link>
           </li>
           <li>
-            <router-link to="/citas-taller" class="nav-link">Citas Taller</router-link>
+            <router-link to="/citas-taller" class="nav-link" v-if="admin">Citas Taller</router-link>
           </li>
           <!-- <li class="nav-item">
             <router-link to="/" class="nav-link">Inicio</router-link>
@@ -82,6 +82,7 @@ const isLogueado = ref(false)
 const isAdmin = ref(false)
 const isUsuario = ref(false)
 const userName = ref('')
+const admin = localStorage.getItem("isAdmin")
 
 // Cando o componente se monta, le localStorage (para cando montes a autenticación)
 // localStorage devuelve todo como string, así que comparamos con 'true'

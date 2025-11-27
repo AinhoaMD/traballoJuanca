@@ -1,7 +1,7 @@
 <template>
   <div class="container">
 
-    <form @submit.prevent="agregarNoticia" class="formulario">
+    <form @submit.prevent="agregarNoticia" class="formulario" v-if="admin">
       <div>
         <label for="title">Título:</label>
         <input
@@ -84,6 +84,7 @@
           <button
             class="btn-borrar"
             @click="eliminarNoticia(noticia.id)"
+            v-if="admin"
           >
             <i class="bi bi-trash"></i>
           </button>
@@ -106,6 +107,7 @@ const titulo = ref('')
 const contenido = ref('')
 const noticias = ref([])
 const isExpanded = ref({}) // para rastrear qué noticias están expandidas
+const admin = localStorage.getItem("isAdmin")
 
 onMounted(() => {
   cargarNoticias()

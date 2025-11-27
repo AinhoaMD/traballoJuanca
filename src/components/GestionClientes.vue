@@ -151,7 +151,7 @@
     </form>
 
     <!-- Lista de Clientes (aquí faltaría un v-if=admin + definir admin abajo) -->
-    <div class="table-responsive">
+    <div class="table-responsive" v-if="admin">
       <h4 class="text-center mb-3">Listado Clientes</h4>
       <table class="table table-bordered table-striped table-hover table-sm align-middle">
         <thead class="table-primary">
@@ -188,7 +188,7 @@
     </div>
 
     <!-- Paginación -->
-    <div class="d-flex justify-content-center align-items-center gap-2 my-3">
+    <div class="d-flex justify-content-center align-items-center gap-2 my-3" v-if="admin">
       <button class="btn btn-outline-primary btn-sm rounded-0 border-1 shadow-none" @click="beforePagina" :disabled="currentPage <= 1">
         <i class="bi bi-chevron-left"></i>
       </button>
@@ -242,6 +242,7 @@ const movilValido = ref(true);
 const provincias = ref(provmuniData.provincias);
 const municipios = ref(provmuniData.municipios);
 const municipiosFiltrados = ref([]);
+const admin = localStorage.getItem("isAdmin")
 
 const totalPages = computed(() => Math.ceil(numClientes.value / clientesPorPage));
 
@@ -375,6 +376,7 @@ const editarCliente = (movil) => {
   nuevoCliente.value.municipio = cliente.municipio;
   editando.value = true;
   clienteEditandoId.value = cliente.id;
+  nuevoCliente.value.password=""
 };
 
 const eliminarCliente = async (movil) => {

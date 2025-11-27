@@ -365,6 +365,8 @@
       "provincia": "Pontevedra",
       "municipio": "Vigo",
       "fecha_alta": "2025-02-10",
+      "tipo": "admin",
+      "password": "$2b$10$OAEcthj11TDU/5d9voz7DOjY4zJbEghIgzHOlPqrSpoT0GT/XHpXy",
       "historico": true
     },
     {
@@ -500,6 +502,12 @@
       "titulo": "Victor detenido por responder a un qué prefieres. Científica Paula involucrada.",
       "contenido": "Victor detenido por responder a un qué prefieres\nmar, 11 nov 2025 19:45\nEl joven Víctor ha sido detenido por responder a un qué prefieres. La científica Paula ya ha realizado una autopsia y utilizará sus órganos para fines científicos",
       "fecha": "2025-11-11T18:46:06.482Z"
+    },
+    {
+      "id": "7",
+      "titulo": "Álvaro se muda",
+      "contenido": "El famoso estafador Álvaro ha sido visto mudándose a las filas de delante.",
+      "fecha": "2025-11-27T07:28:38.034Z"
     }
   ],
   "modelos": [
