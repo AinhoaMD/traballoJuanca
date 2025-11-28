@@ -8,6 +8,7 @@ import PoliticaPrivacidad from '../components/PoliticaPrivacidad.vue';
 import MoDelos from '../components/MoDelos.vue';  
 import CitasTaller from '../components/CitasTaller.vue';
 import TablaLogin from '../components/TablaLogin.vue';
+import VenTas from '../components/VenTas.vue';
 
 
 const routes = [
@@ -23,7 +24,7 @@ const routes = [
   },
   {
     path: "/noticias",
-    name: 'NotiCias',
+    name: "NotiCias",
     component: NotiCias,
   },
   {
@@ -36,7 +37,7 @@ const routes = [
     name: "AvisoLegal",
     component: AvisoLegal,
   },
-    {
+  {
     path: "/politica-privacidad",
     name: "ProliticaPrivacidad",
     component: PoliticaPrivacidad,
@@ -49,13 +50,18 @@ const routes = [
   {
     path: "/citas-taller",
     name: "CitasTaller",
-    component: CitasTaller
+    component: CitasTaller,
   },
   {
     path: "/login",
     name: "TablaLogin",
-    component: TablaLogin
-  }
+    component: TablaLogin,
+  },
+  {
+    path: "/ventas",
+    name: "VenTas",
+    component: VenTas,
+  },
 ];
 
 const router = createRouter({

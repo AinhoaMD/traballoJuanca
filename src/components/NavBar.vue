@@ -37,6 +37,9 @@
           <li>
             <router-link to="/citas-taller" class="nav-link" v-if="admin">Citas Taller</router-link>
           </li>
+          <li>
+            <router-link to="/ventas" class="nav-link">Ventas</router-link>
+          </li>
           <!-- <li class="nav-item">
             <router-link to="/" class="nav-link">Inicio</router-link>
           </li>
