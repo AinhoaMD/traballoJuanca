@@ -107,7 +107,7 @@ const titulo = ref('')
 const contenido = ref('')
 const noticias = ref([])
 const isExpanded = ref({}) // para rastrear qué noticias están expandidas
-const admin = localStorage.getItem("isAdmin")
+const admin = sessionStorage.getItem("isAdmin")
 
 onMounted(() => {
   cargarNoticias()

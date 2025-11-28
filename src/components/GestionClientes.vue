@@ -242,7 +242,7 @@ const movilValido = ref(true);
 const provincias = ref(provmuniData.provincias);
 const municipios = ref(provmuniData.municipios);
 const municipiosFiltrados = ref([]);
-const admin = localStorage.getItem("isAdmin")
+const admin = sessionStorage.getItem("isAdmin")
 
 const totalPages = computed(() => Math.ceil(numClientes.value / clientesPorPage));
 

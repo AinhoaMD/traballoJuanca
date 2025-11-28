@@ -50,15 +50,15 @@ export default {
       try {
         const data = await loginUsuario(this.dni, this.pass);
 
-        // Guardar token y datos del usuario en localStorage
-        localStorage.setItem('token', data.token);
-        localStorage.setItem('userName', data.nombre);
-        localStorage.setItem('isLogueado', 'true');
+        // Guardar token y datos del usuario en sessionStorage
+        sessionStorage.setItem('token', data.token);
+        sessionStorage.setItem('userName', data.nombre);
+        sessionStorage.setItem('isLogueado', 'true');
 
         if (data.tipo === "admin") {
-          localStorage.setItem('isAdmin', 'true');
+          sessionStorage.setItem('isAdmin', 'true');
         } else {
-          localStorage.setItem('isUsuario', 'true');
+          sessionStorage.setItem('isUsuario', 'true');
         }
 
         Swal.fire({
@@ -160,15 +160,15 @@ export default {
   //           if (usuario.tipo === "admin" || usuario.tipo === "usuario") {
   //             this.errorMessage = ""; // Limpiar mensaje de error si las credenciales son correctas
   //             this.mostrarAlerta("Bienvenido", "Sesión Iniciada", "success")
-  //             localStorage.setItem('isLogueado', 'true')
-  //             localStorage.setItem('userName', usuario.nombre)
+  //             sessionStorage.setItem('isLogueado', 'true')
+  //             sessionStorage.setItem('userName', usuario.nombre)
   //             if (usuario.tipo === "admin") {
-  //               localStorage.setItem('isAdmin', 'true')
+  //               sessionStorage.setItem('isAdmin', 'true')
   //               this.$router.push({ name: 'inicio' }).then(() => {
   //               window.location.reload();  // Recargar la página
   //             });
   //             } else {
-  //               localStorage.setItem('isUsuario', 'true')
+  //               sessionStorage.setItem('isUsuario', 'true')
   //               this.$router.push({ name: 'inicio' }).then(() => {
   //               window.location.reload();  // Recargar la página
   //             });

@@ -84,27 +84,27 @@ const isLogueado = ref(false)
 const isAdmin = ref(false)
 const isUsuario = ref(false)
 const userName = ref('')
-const admin = localStorage.getItem("isAdmin")
+const admin = sessionStorage.getItem("isAdmin")
 
-// Cando o componente se monta, le localStorage (para cando montes a autenticación)
-// localStorage devuelve todo como string, así que comparamos con 'true'
+// Cando o componente se monta, le sessionStorage (para cando montes a autenticación)
+// sessionStorage devuelve todo como string, así que comparamos con 'true'
 // para obter valores booleanos correctos si no están almacenados devuelve null
 // si están logueados devuelve 'true' o 'false' como string
 onMounted(() => {
-  isLogueado.value = localStorage.getItem('isLogueado') === 'true'
-  isAdmin.value = localStorage.getItem('isAdmin') === 'true'
-  isUsuario.value = localStorage.getItem('isUsuario') === 'true'
-  userName.value = localStorage.getItem('userName') || ''
+  isLogueado.value = sessionStorage.getItem('isLogueado') === 'true'
+  isAdmin.value = sessionStorage.getItem('isAdmin') === 'true'
+  isUsuario.value = sessionStorage.getItem('isUsuario') === 'true'
+  userName.value = sessionStorage.getItem('userName') || ''
 })
 
 // Logout
 function logout() {
-  // Borra datos de sesión do localStorage
-  localStorage.removeItem('isLogueado')
-  localStorage.removeItem('userName')
-  localStorage.removeItem('isAdmin')
-  localStorage.removeItem('isUsuario')
-  localStorage.removeItem('token')
+  // Borra datos de sesión do sessionStorage
+  sessionStorage.removeItem('isLogueado')
+  sessionStorage.removeItem('userName')
+  sessionStorage.removeItem('isAdmin')
+  sessionStorage.removeItem('isUsuario')
+  sessionStorage.removeItem('token')
 
   // Actualiza estado
   isLogueado.value = false
