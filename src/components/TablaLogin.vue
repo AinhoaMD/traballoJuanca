@@ -35,6 +35,7 @@
 
 import Swal from 'sweetalert2';
 import { loginUsuario } from "@/api/authApi.js";
+// import * as jwtDecode from 'dwt-decode';
 
 export default {
   name: "TablaLogin",

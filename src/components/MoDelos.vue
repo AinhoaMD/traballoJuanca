@@ -169,6 +169,22 @@
       </div>
 
     </form>
+    <h6 class="text-center mb-1 bg-secondary text-white">Listado de Modelos</h6>
+    <table class="table table-bordered table-striped table-sm table-hover table-sm align-middle">
+        <thead>
+          <tr class="table-primary text-center">
+            <th>Matrícula</th>
+            <th>Marca</th>
+            <th>Modelo</th>
+            <th>Estado</th>
+            <th>Contacto</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- aquí se agregarán las filas de modelos dinámicamente -->
+        </tbody>
+      </table>
   </div>
 </template>
 
