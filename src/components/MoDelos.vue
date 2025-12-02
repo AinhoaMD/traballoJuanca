@@ -169,6 +169,7 @@
       </div>
 
     </form>
+    <hr></hr>
     <h6 class="text-center mb-1 bg-secondary text-white">Listado de Modelos</h6>
     <table class="table table-bordered table-striped table-sm table-hover table-sm align-middle">
         <thead>
