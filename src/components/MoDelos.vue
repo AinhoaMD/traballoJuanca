@@ -183,7 +183,20 @@
           </tr>
         </thead>
         <tbody>
-          <!-- aquí se agregarán las filas de modelos dinámicamente -->
+          <tr v-for="modelo in modelos" :key="modelo._id" class="text-center">
+            <td>{{ modelo.matricula }}</td>
+            <td>{{ modelo.marca }}</td>
+            <td>{{ modelo.modelo }}</td>
+            <td>{{ modelo.estado }}</td>
+            <td>
+              <div>{{ modelo.contacto.nombre }}  {{ modelo.contacto.telefono }}</div>
+            </td>
+            <td>
+              <button class="btn btn-sm btn-primary me-2" @click="editando = true; vehiculo = {...modelo}">
+                <i class="bi bi-pencil"></i>
+              </button>
+            </td>
+          </tr>
         </tbody>
       </table>
   </div>

@@ -35,6 +35,7 @@
 
 import Swal from 'sweetalert2';
 import { loginUsuario } from "@/api/authApi.js";
+import { onMounted } from 'vue';
 // import * as jwtDecode from 'dwt-decode';
 
 export default {
@@ -49,6 +50,19 @@ export default {
   methods: {
     async iniciarSesion() {
       try {
+
+        this.dni = this.dni.toUpperCase().trim();
+        this.pass = this.pass.trim();
+        if (this.dni === "" || this.pass === ""){
+          Swal.fire({
+            title: "Campos Vacíos",
+            text: "Por favor, complete ambos campos",
+            icon: "warning",
+            confirmButtonText: "Aceptar"
+          });
+          return
+        }
+
         const data = await loginUsuario(this.dni, this.pass);
 
         // Guardar token y datos del usuario en sessionStorage
