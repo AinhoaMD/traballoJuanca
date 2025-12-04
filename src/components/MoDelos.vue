@@ -189,7 +189,7 @@
             <td>{{ modelo.modelo }}</td>
             <td>{{ modelo.estado }}</td>
             <td>
-              <div>{{ modelo.contacto.nombre }}  {{ modelo.contacto.telefono }}</div>
+              <!-- <div>{{ modelo.contacto.nombre }}  {{ modelo.contacto.telefono }}</div> -->
             </td>
             <td>
               <button class="btn btn-sm btn-primary me-2" @click="editando = true; vehiculo = {...modelo}">
@@ -207,8 +207,9 @@
 /// Importar datos de provincias y municipios
 import provmuniData from '@/data/provmuni.json';  
 import Swal from "sweetalert2"
-import { ref, computed } from "vue"
+import { ref, computed, onMounted } from "vue"
 import { addArticulo } from "@/api/articulos.js"
+import { getModelos } from "@/api/modelos.js"
 
 const vehiculo = ref({
   tipo: "",
@@ -247,6 +248,19 @@ const onFileChange = (e) => {
 //const tiposVehiculo = ref(["coche", "moto", "furgoneta", "camión"])
 //const tiposCombustible = ref(["gasolina", "diésel", "híbrido", "eléctrico"])
 
+// Mis cambios
+const modelos = ref([])
+
+onMounted(async() => {
+  cargarModelos();
+});
+
+const cargarModelos = () => {
+  getModelos().then(data => {
+    console.log(data)
+    modelos.value = data;
+  })
+}
 
 // Enviar datos al backend
 const guardarVehiculo = async () => {
