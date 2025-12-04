@@ -174,7 +174,7 @@
     <table class="table table-bordered table-striped table-sm table-hover table-sm align-middle">
         <thead>
           <tr class="table-primary text-center">
-            <th>Matrícula</th>
+            <th>Tipo</th>
             <th>Marca</th>
             <th>Modelo</th>
             <th>Estado</th>
@@ -184,12 +184,12 @@
         </thead>
         <tbody>
           <tr v-for="modelo in modelos" :key="modelo._id" class="text-center">
-            <td>{{ modelo.matricula }}</td>
+            <td>{{ modelo.tipo }}</td>
             <td>{{ modelo.marca }}</td>
             <td>{{ modelo.modelo }}</td>
             <td>{{ modelo.estado }}</td>
             <td>
-              <!-- <div>{{ modelo.contacto.nombre }}  {{ modelo.contacto.telefono }}</div> -->
+              <div>{{ modelo.contacto.nombre }} {{ modelo.contacto.telefono }}</div>
             </td>
             <td>
               <button class="btn btn-sm btn-primary me-2" @click="editando = true; vehiculo = {...modelo}">
