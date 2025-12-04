@@ -299,9 +299,9 @@
       "direccion": "Calle Sánchez 18",
       "provincia": "Valencia",
       "municipio": "Xàtiva",
-      "historico": false,
+      "historico": true,
       "lopd": true,
-      "password": "",
+      "password": "$2b$10$fyKpvXSr7wmQsvEXjHgN6.GpYR4MutZUSPb0IsDfXnF60qvOAkqdW",
       "id": "bacd"
     },
     {
@@ -366,8 +366,9 @@
       "municipio": "Vigo",
       "fecha_alta": "2025-02-10",
       "tipo": "admin",
-      "password": "$2b$10$OAEcthj11TDU/5d9voz7DOjY4zJbEghIgzHOlPqrSpoT0GT/XHpXy",
-      "historico": true
+      "password": "$2b$10$TZnEqbpseoNPDTwmmxABxux0Ww1t.Ce3z6V.iwCXTu7amuV./x6Ga",
+      "historico": true,
+      "lopd": true
     },
     {
       "id": "c9ee",
@@ -454,22 +455,6 @@
       "historico": true,
       "tipoCliente": "particular",
       "lopd": true
-    },
-    {
-      "id": "7714",
-      "dni": "12345678Z",
-      "nombre": "Pepe",
-      "apellidos": "Pepon",
-      "email": "pepe@pepe.com",
-      "movil": "666778899",
-      "direccion": "Avda. De Galicia, 101",
-      "provincia": "Córdoba",
-      "municipio": "Carcabuey",
-      "fecha_alta": "2025-11-06",
-      "historico": true,
-      "lopd": true,
-      "tipoCliente": "",
-      "password": "$2b$10$lOjwafKQayZd/0j//d3BN.IS.YcSAN0dTFYmKkzur46qWHlI1E10i"
     }
   ],
   "noticias": [

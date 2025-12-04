@@ -69,7 +69,7 @@ export default {
         this.dni = this.dni.toUpperCase().trim();
         this.pass = this.pass.trim(); 
         if (this.dni === "" || this.pass === "") {
-          Swal.fire({
+          await Swal.fire({
             title: "Campos vacíos",
             text: "Por favor, complete ambos campos.",
             icon: "warning",
