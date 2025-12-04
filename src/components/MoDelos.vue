@@ -174,7 +174,7 @@
     <table class="table table-bordered table-striped table-sm table-hover table-sm align-middle">
         <thead>
           <tr class="table-primary text-center">
-            <th>Tipo</th>
+            <th>Matrícula</th>
             <th>Marca</th>
             <th>Modelo</th>
             <th>Estado</th>
@@ -184,7 +184,7 @@
         </thead>
         <tbody>
           <tr v-for="modelo in modelos" :key="modelo._id" class="text-center">
-            <td>{{ modelo.tipo }}</td>
+            <td>{{ modelo.matricula }}</td>
             <td>{{ modelo.marca }}</td>
             <td>{{ modelo.modelo }}</td>
             <td>{{ modelo.estado }}</td>

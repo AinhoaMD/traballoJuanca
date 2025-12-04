@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:3000/modelos';
+const API_URL = "http://localhost:5000/api/articulos";
 
 export async function getModelos() {
     try {
@@ -14,7 +14,11 @@ export async function getModelos() {
 // aquí no devuelve nada por eso no se hace const res
 export async function addModelo(modelo) {
     try{
-        axios.post(API_URL, modelo);
+        axios.post(API_URL, modelo ,{
+    headers: {
+      'Content-Type': 'multipart/form-data'
+    }
+  });;
     }catch(error){
         console.error('Error al añadir el modelo: ', error);
     }
