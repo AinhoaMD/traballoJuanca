@@ -38,14 +38,18 @@
           </div>
         </div>
 
-        <div class="col-md-4">
+        <div class="col-md-3">
           <label for="fecha_alta" class="form-label">Fecha de Alta:</label>
           <div class="input-group">
             <input type="date" id="fecha_alta" v-model="nuevoCliente.fecha_alta" class="form-control" required />
-            <button type="button" class="btn btn-secondary shadow-none rounded-0" @click="recargaForm()">
-              <i class="bi bi-arrow-clockwise"></i>
-            </button>
           </div>
+        </div>
+
+        <div class="col-md-1">
+          <label for="refre" class="form-label">Refrescar</label>
+          <button id="refre" type="button" class="btn btn-secondary shadow-none rounded-0" @click="recargaForm()">
+            <i class="bi bi-arrow-clockwise"></i>
+          </button>
         </div>
       </div>
 
@@ -354,7 +358,7 @@ const guardarCliente = async () => {
     dniValido.value = true;
     movilValido.value = true;
     emailValido.value = true;
-    clientes.value = await getClientes();
+    clientes.value = await getClientes(mostrarHistorico.value);
   } catch (error) {
     console.error('Error:', error);
     Swal.fire({
@@ -380,7 +384,7 @@ const editarCliente = (movil) => {
 };
 
 const eliminarCliente = async (movil) => {
-  clientes.value = await getClientes();
+  clientes.value = await getClientes(mostrarHistorico.value);
   const clienteAEliminar = clientes.value.find(cliente => cliente.movil === movil);
 
   if (!clienteAEliminar) return;
@@ -396,7 +400,7 @@ const eliminarCliente = async (movil) => {
   if (!result.isConfirmed) return;
 
   await deleteCliente(clienteAEliminar.id);
-  clientes.value = await getClientes();
+  clientes.value = await getClientes(mostrarHistorico.value);
   Swal.fire({
     icon: 'success',
     title: 'Cliente eliminado',
@@ -517,9 +521,13 @@ const buscarClientePorDNI = async (dni) => {
       return;
     }
 
-    nuevoCliente.value = { ...cliente };
+    nuevoCliente.value = { 
+      ...cliente,
+      password: '',
+     };
     nuevoCliente.value.fecha_alta = formatearFechaParaInput(cliente.fecha_alta);
     filtrarMunicipios();
+    nuevoCliente.value.municipio = cliente.municipio;
     editando.value = true;
     clienteEditandoId.value = cliente.id;
     Swal.fire({
@@ -576,11 +584,14 @@ function recargaForm() {
     password: "",
     password2: ""
   };
+  municipiosFiltrados.value = [];
   editando.value = false;
   clienteEditandoId.value = null;
   dniValido.value = true;
   movilValido.value = true;
   emailValido.value = true;
+  mostrarHistorico.value = false;
+  avisoLegal.value = false;
 }
 </script>
 

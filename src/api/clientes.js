@@ -35,9 +35,8 @@ export const addCliente = (nuevoCliente) => {
 // Si quieres eliminarlo físicamente, usa axios.delete
 // Función para eliminar un cliente por su id pasando histórico a false
 export const deleteCliente = (id) => {
-  return axios.patch(`${API_URL}/${id}`, {historico: false}
+  return axios.patch(`${API_URL}/${id}`, {historico: false})
                 .then(res => res.data)
-  )
 }
 
 // Función para actualizar un cliente por su id
