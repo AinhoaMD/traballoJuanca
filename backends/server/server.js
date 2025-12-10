@@ -9,6 +9,7 @@ import dotenv from "dotenv";
 // MONGOSEE NO SABE NADA DE RUTAS CONTROLADRES Y MODELOS, HAY QUE CREARLOS MANUALMENTE
 import authRoutes from "./authRoutes.js"
 import articulosRoutes from "./articulosRoutes.js"; // ruta al router backend
+import contactoRoutes from "./contacto.js"
 
 dotenv.config();
 const app = express();
@@ -47,6 +48,21 @@ app.use("/api/articulos", articulosRoutes);
 
 // Verificar variable
 //console.log("MONGODB_URI =", process.env.MONGODB_URI);
+
+
+// Rutas de contacto
+app.use("/api/contacto", contactoRoutes);
+
+// Configuración de CORS modificado para correo
+
+const corsOptions = {
+  origin: "http://localhost:5173", // tu frontend
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowredHeaders: ["Origin", "X-Requested-With", "Content-Type", "Accept", "Authorization"],
+  credentials: true
+};
+
+app.use(cors(corsOptions));
 
 /// Conexión a MongoDB
 mongoose
