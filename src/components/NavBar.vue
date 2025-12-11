@@ -1,9 +1,10 @@
 <template>
   <nav class="navbar navbar-dark bg-primary sticky-top navbar-expand-lg">
-
     <div class="container-fluid">
       <!-- Marca o logo -->
-      <a class="navbar-brand" href="#"><img src="/src/assets/porfavor.svg" width="100"></a>
+      <a class="navbar-brand" href="#"
+        ><img src="/src/assets/porfavor.svg" width="100"
+      /></a>
 
       <!-- Botón de hamburguesa en pantallas pequeñas -->
       <button
@@ -19,23 +20,30 @@
       </button>
 
       <!-- Links de navegación -->
-      <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+      <div
+        class="collapse navbar-collapse justify-content-center"
+        id="navbarNav"
+      >
         <ul class="navbar-nav">
           <li class="nav-item">
             <!-- <a class="nav-link" aria-current="page" href="#">Inicio</a> -->
-             <router-link to="/" class="nav-link">Inicio</router-link>
+            <router-link to="/" class="nav-link">Inicio</router-link>
           </li>
-          <li class="nav-item">
+          <li class="nav-item" v-if="isAdmin">
             <router-link to="/clientes" class="nav-link">Clientes</router-link>
           </li>
           <li class="nav-item">
             <router-link to="/noticias" class="nav-link">Noticias</router-link>
           </li>
-          <li>
-            <router-link to='/modelos' class="nav-link" v-if="admin">Modelos</router-link>
+          <li v-if="isAdmin">
+            <router-link to="/modelos" class="nav-link" v-if="admin"
+              >Modelos</router-link
+            >
           </li>
-          <li>
-            <router-link to="/citas-taller" class="nav-link" v-if="admin">Citas Taller</router-link>
+          <li v-if="isAdmin">
+            <router-link to="/citas-taller" class="nav-link" v-if="admin"
+              >Citas Taller</router-link
+            >
           </li>
           <li>
             <router-link to="/ventas" class="nav-link">Ventas</router-link>
@@ -57,67 +65,76 @@
     </div>
 
     <!-- Dropdown de acceso/registro -->
-        <!-- <div class="dropdown ms-auto"> -->
-        <div class="d-flex align-items-center ms-auto">
-          <span v-if="isLogueado" class="text-nowrap text-end text-white">{{ userName }}</span>
-          <button
-            class="btn btn-primary dropdown-toggle"
-            type="button"
-            data-bs-toggle="dropdown"
-            aria-expanded="false"
+    <!-- <div class="dropdown ms-auto"> -->
+    <div class="d-flex align-items-center ms-auto">
+      <span v-if="isLogueado" class="text-nowrap text-end text-white">{{
+        userName
+      }}</span>
+      <button
+        class="btn btn-primary dropdown-toggle"
+        type="button"
+        data-bs-toggle="dropdown"
+        aria-expanded="false"
+      >
+        <i class="bi bi-person fs-2"></i>
+      </button>
+      <ul class="dropdown-menu dropdown-menu-end">
+        <!-- Mostra “Acceso/Registro” se NON hai usuario logueado -->
+        <li v-if="!isLogueado">
+          <router-link class="dropdown-item" to="/login">Acceso</router-link>
+        </li>
+        <li v-if="!isLogueado">
+          <router-link class="dropdown-item" to="/clientes"
+            >Registro</router-link
           >
-            <i class="bi bi-person fs-2"></i>
-          </button>
-          <ul class="dropdown-menu dropdown-menu-end">
-            <!-- Mostra “Acceso/Registro” se NON hai usuario logueado -->
-            <li v-if="!isLogueado"><router-link class="dropdown-item" to="/login">Acceso</router-link></li>
-            <li v-if="!isLogueado"><router-link class="dropdown-item" to="/clientes">Registro</router-link></li>
-            <!-- Mostra “Cerrar Sesión” se está logueado -->
-            <li v-if="isLogueado">
-              <a class="dropdown-item" href="#" @click.prevent="logout">Cerrar Sesión</a>
-            </li>
-          </ul>
-        </div>
-
+        </li>
+        <li v-if="isLogueado">
+          <a class="dropdown-item" href="/clientes">Perfil</a>
+        </li>
+        <!-- Mostra “Cerrar Sesión” se está logueado -->
+        <li v-if="isLogueado">
+          <a class="dropdown-item" href="#" @click.prevent="logout"
+            >Cerrar Sesión</a
+          >
+        </li>
+      </ul>
+    </div>
   </nav>
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted } from "vue";
 
 // Estado do login
-const isLogueado = ref(false)
-const isAdmin = ref(false)
-const isUsuario = ref(false)
-const userName = ref('')
-const admin = sessionStorage.getItem("isAdmin")
+const isLogueado = ref(false);
+const isAdmin = ref(false);
+const isUsuario = ref(false);
+const userName = ref("");
+const admin = sessionStorage.getItem("isAdmin");
+const userDni = ref("");
 
 // Cando o componente se monta, le sessionStorage (para cando montes a autenticación)
 // sessionStorage devuelve todo como string, así que comparamos con 'true'
 // para obter valores booleanos correctos si no están almacenados devuelve null
 // si están logueados devuelve 'true' o 'false' como string
 onMounted(() => {
-  isLogueado.value = sessionStorage.getItem('isLogueado') === 'true'
-  isAdmin.value = sessionStorage.getItem('isAdmin') === 'true'
-  isUsuario.value = sessionStorage.getItem('isUsuario') === 'true'
-  userName.value = sessionStorage.getItem('userName') || ''
-})
+  isLogueado.value = sessionStorage.getItem("isLogueado") === "true";
+  isAdmin.value = sessionStorage.getItem("isAdmin") === "true";
+  isUsuario.value = sessionStorage.getItem("isUsuario") === "true";
+  userName.value = sessionStorage.getItem("userName") || "";
+});
 
 // Logout
 function logout() {
   // Borra datos de sesión do sessionStorage
-  sessionStorage.removeItem('isLogueado')
-  sessionStorage.removeItem('userName')
-  sessionStorage.removeItem('isAdmin')
-  sessionStorage.removeItem('isUsuario')
-  sessionStorage.removeItem('token')
+  sessionStorage.clear();
 
   // Actualiza estado
-  isLogueado.value = false
-  userName.value = ''
+  isLogueado.value = false;
+  userName.value = "";
 
   // Redirixe ao inicio recargando a páxina
-  window.location.href = '/'
+  window.location.href = "/";
 }
 </script>
 

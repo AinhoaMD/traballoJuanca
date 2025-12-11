@@ -1,6 +1,5 @@
 <template>
   <div class="container">
-
     <form @submit.prevent="agregarNoticia" class="formulario" v-if="admin">
       <div>
         <label for="title">Título:</label>
@@ -47,178 +46,189 @@
         <button @click="eliminarNoticia(index)">Eliminar</button>
       </div>
     </div> -->
-  
 
-  <!-- Tabla sin bordes -->
-  <table class="table table-borderless mt-3">
-    <tbody>
-      <template v-for="noticia in noticias" :key="noticia.id">  <!-- Template dentro de otro template-->
-        <!-- Fila 1: título y fecha -->
-        <tr>
-          <td>
-            <div class="d-flex justify-content-between">
-              <strong class="text-primary">{{ noticia.titulo }}</strong>
-              <small class="text-muted text-secondary">{{ formatearFecha(noticia.fecha) }}</small>
-            </div>
-          </td>
-      </tr>
-      <!-- Fila 2: contenido con "mostrar más/menos" -->
-      <tr>
-        <td>
-          <span>
-            {{ previewText(noticia) }}
-          </span>
-          <a
-            v-if="canShowToggle(noticia)"
-            href="#"
-            @click.prevent="toggleExpand(noticia.id)"
-            class="float-end text-decoration-none"
-          >
-            {{ isExpanded[noticia.id] ? 'Mostrar menos...' : 'Seguir leyendo...' }}
-          </a>
-        </td>
-      </tr>
-      <!-- Fila 3: botones -->
-      <tr>
-        <td class="text-end">
-          <button
-            class="btn-borrar"
-            @click="eliminarNoticia(noticia.id)"
-            v-if="admin"
-          >
-            <i class="bi bi-trash"></i>
-          </button>
-        </td>
-      </tr>
-      <!-- Fila 4: espacio en blanco -->
-      <tr><td>&nbsp;</td></tr>
-    </template>
-  </tbody>
-</table>
+    <!-- Tabla sin bordes -->
+    <table class="table table-borderless mt-3">
+      <tbody>
+        <template v-for="noticia in noticias" :key="noticia.id">
+          <!-- Template dentro de otro template-->
+          <!-- Fila 1: título y fecha -->
+          <tr>
+            <td>
+              <div class="d-flex justify-content-between">
+                <strong class="text-primary">{{ noticia.titulo }}</strong>
+                <small class="text-muted text-secondary">{{
+                  formatearFecha(noticia.fecha)
+                }}</small>
+              </div>
+            </td>
+          </tr>
+          <!-- Fila 2: contenido con "mostrar más/menos" -->
+          <tr>
+            <td>
+              <span>
+                {{ previewText(noticia) }}
+              </span>
+              <a
+                v-if="canShowToggle(noticia)"
+                href="#"
+                @click.prevent="toggleExpand(noticia.id)"
+                class="float-end text-decoration-none"
+              >
+                {{
+                  isExpanded[noticia.id]
+                    ? "Mostrar menos..."
+                    : "Seguir leyendo..."
+                }}
+              </a>
+            </td>
+          </tr>
+          <!-- Fila 3: botones -->
+          <tr>
+            <td class="text-end">
+              <button
+                class="btn-borrar"
+                @click="eliminarNoticia(noticia.id)"
+                v-if="admin"
+              >
+                <i class="bi bi-trash"></i>
+              </button>
+            </td>
+          </tr>
+          <!-- Fila 4: espacio en blanco -->
+          <tr>
+            <td>&nbsp;</td>
+          </tr>
+        </template>
+      </tbody>
+    </table>
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
-import Swal from 'sweetalert2'
-import { addNoticia, getNoticias, deleteNoticia } from '@/api/noticias'
+import { ref, onMounted } from "vue";
+import Swal from "sweetalert2";
+import { addNoticia, getNoticias, deleteNoticia } from "@/api/noticias";
 
-const titulo = ref('')
-const contenido = ref('')
-const noticias = ref([])
-const isExpanded = ref({}) // para rastrear qué noticias están expandidas
-const admin = sessionStorage.getItem("isAdmin")
+const titulo = ref("");
+const contenido = ref("");
+const noticias = ref([]);
+const isExpanded = ref({}); // para rastrear qué noticias están expandidas
+const admin = sessionStorage.getItem("isAdmin") === "true";
 
 onMounted(() => {
-  cargarNoticias()
-})
+  cargarNoticias();
+});
 
 const toggleExpand = (id) => {
-  isExpanded.value[id] = !isExpanded.value[id]
-}
+  isExpanded.value[id] = !isExpanded.value[id];
+};
 
 const cargarNoticias = async () => {
   try {
-    const data = await getNoticias()
-    noticias.value = data.sort((a, b) => new Date(b.fecha) - new Date(a.fecha))
+    const data = await getNoticias();
+    noticias.value = data.sort((a, b) => new Date(b.fecha) - new Date(a.fecha));
     // Inicializar el estado de expansión
-    noticias.value.forEach(noticia => {
-      isExpanded.value[noticia.id] = false
-    })
+    noticias.value.forEach((noticia) => {
+      isExpanded.value[noticia.id] = false;
+    });
   } catch (error) {
-    console.error('Error al cargar noticias:', error)
+    console.error("Error al cargar noticias:", error);
   }
-}
+};
 
 const agregarNoticia = async () => {
   if (!titulo.value.trim() || !contenido.value.trim()) {
-    Swal.fire('Error', 'Rellena título y contenido', 'error')
-    return
+    Swal.fire("Error", "Rellena título y contenido", "error");
+    return;
   }
 
   const nueva = {
-    id: noticias.value.length > 0
-      ? String(Math.max(...noticias.value.map(n => Number(n.id))) + 1)
-      : '1',
+    id:
+      noticias.value.length > 0
+        ? String(Math.max(...noticias.value.map((n) => Number(n.id))) + 1)
+        : "1",
     titulo: titulo.value.trim(),
     contenido: contenido.value.trim(),
-    fecha: new Date().toISOString()
-  }
+    fecha: new Date().toISOString(),
+  };
 
   try {
-    const res = await addNoticia(nueva)
+    const res = await addNoticia(nueva);
     // actualizar lista local
-    noticias.value.unshift(nueva)
-    isExpanded.value[nueva.id] = false
+    noticias.value.unshift(nueva);
+    isExpanded.value[nueva.id] = false;
     // limpiar formulario
-    titulo.value = ''
-    contenido.value = ''
-    Swal.fire('OK', 'Noticia grabada', 'success')
+    titulo.value = "";
+    contenido.value = "";
+    Swal.fire("OK", "Noticia grabada", "success");
   } catch (err) {
-    console.error('Error al grabar noticia', err)
-    Swal.fire('Error', 'No se pudo grabar la noticia', 'error')
+    console.error("Error al grabar noticia", err);
+    Swal.fire("Error", "No se pudo grabar la noticia", "error");
   }
-}
+};
 
 const eliminarNoticia = async (id) => {
   const confirm = await Swal.fire({
-    title: '¿Eliminar noticia?',
-    text: 'Esta acción no se puede deshacer',
-    icon: 'warning',
+    title: "¿Eliminar noticia?",
+    text: "Esta acción no se puede deshacer",
+    icon: "warning",
     showCancelButton: true,
-    confirmButtonText: 'Sí, eliminar',
-    cancelButtonText: 'Cancelar'
-  })
+    confirmButtonText: "Sí, eliminar",
+    cancelButtonText: "Cancelar",
+  });
 
-  if (!confirm.isConfirmed) return
+  if (!confirm.isConfirmed) return;
 
   try {
-    await deleteNoticia(id)
-    noticias.value = noticias.value.filter(n => n.id !== id)
-    Swal.fire('Eliminada', 'La noticia fue eliminada correctamente', 'success')
+    await deleteNoticia(id);
+    noticias.value = noticias.value.filter((n) => n.id !== id);
+    Swal.fire("Eliminada", "La noticia fue eliminada correctamente", "success");
   } catch (err) {
-    console.error('Error al eliminar noticia:', err)
-    Swal.fire('Error', 'No se pudo eliminar la noticia', 'error')
+    console.error("Error al eliminar noticia:", err);
+    Swal.fire("Error", "No se pudo eliminar la noticia", "error");
   }
-}
+};
 
 // Helpers para vista previa y control del enlace "seguir leyendo"
-const PREVIEW_LIMIT = 100
+const PREVIEW_LIMIT = 100;
 
 const previewText = (noticia) => {
-  if (!noticia || !noticia.contenido) return ''
-  const id = noticia.id
-  const full = noticia.contenido
-  const expanded = isExpanded.value[id]
-  if (expanded) return full
-  if (full.length <= PREVIEW_LIMIT) return full
-  return full.slice(0, PREVIEW_LIMIT).trimEnd() + '...'
-}
+  if (!noticia || !noticia.contenido) return "";
+  const id = noticia.id;
+  const full = noticia.contenido;
+  const expanded = isExpanded.value[id];
+  if (expanded) return full;
+  if (full.length <= PREVIEW_LIMIT) return full;
+  return full.slice(0, PREVIEW_LIMIT).trimEnd() + "...";
+};
 
 const canShowToggle = (noticia) => {
-  if (!noticia || !noticia.contenido) return false
-  return noticia.contenido.length > PREVIEW_LIMIT
-}
+  if (!noticia || !noticia.contenido) return false;
+  return noticia.contenido.length > PREVIEW_LIMIT;
+};
 
 function formatearFecha(fecha) {
-  if (!fecha) return ''
+  if (!fecha) return "";
   try {
-    const d = new Date(fecha)
-    if (isNaN(d)) return fecha
+    const d = new Date(fecha);
+    if (isNaN(d)) return fecha;
     // Fecha corta (día mes año) + hora:minuto en formato español
-    const fechaStr = d.toLocaleDateString('es-ES', {
-      weekday: 'short',
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric'
-    })
-    const horaStr = d.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' })
-    return `${fechaStr} ${horaStr}`
+    const fechaStr = d.toLocaleDateString("es-ES", {
+      weekday: "short",
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+    });
+    const horaStr = d.toLocaleTimeString("es-ES", {
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+    return `${fechaStr} ${horaStr}`;
   } catch (e) {
-    return fecha
+    return fecha;
   }
 }
-
 
 // import { ref, computed, onMounted } from "vue";
 // import noticiasData from "../data/db.json"; // ajusta la ruta según tu estructura
@@ -278,8 +288,6 @@ function formatearFecha(fecha) {
 //     minute: "2-digit"
 //   });
 // }
-
-
 </script>
 
 <style scoped>
@@ -329,7 +337,8 @@ button {
 }
 
 /* Evitar que el contenido estire los contenedores */
-.container, table {
+.container,
+table {
   word-break: break-word;
 }
 

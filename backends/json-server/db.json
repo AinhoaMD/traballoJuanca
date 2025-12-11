@@ -303,7 +303,8 @@
       "historico": true,
       "lopd": true,
       "password": "$2b$10$fyKpvXSr7wmQsvEXjHgN6.GpYR4MutZUSPb0IsDfXnF60qvOAkqdW",
-      "id": "bacd"
+      "id": "bacd",
+      "tipo": "admin"
     },
     {
       "tipoCliente": "particular",
