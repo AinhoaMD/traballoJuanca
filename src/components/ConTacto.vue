@@ -107,7 +107,7 @@
 <script setup>
 import { ref } from 'vue';
 import Swal from 'sweetalert2';
-import { enviarContacto } from '@/../backends/server/contacto.js';
+import axios from 'axios';
 
 const formulario = ref({
     nombre: '',
@@ -118,14 +118,26 @@ const formulario = ref({
 
 const enviando = ref(false);
 
+// Usa variable de entorno si quieres: import.meta.env.VITE_API_URL
+const API_URL = "http://localhost:5000/api/contacto";
+
+// --- función corregida ---
+const enviarDatosContacto = async (data) => {
+  try {
+    const response = await axios.post(API_URL, data);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 const enviarFormulario = async () => {
     enviando.value = true;
 
     try {
-        const response = await enviarContacto(formulario.value);
-        
-        if (response.success) {
-            // Mostrar mensaje de éxito
+        const response = await enviarDatosContacto(formulario.value);
+
+        if (response?.success) {
             Swal.fire({
                 icon: 'success',
                 title: '¡Mensaje enviado!',
@@ -133,21 +145,20 @@ const enviarFormulario = async () => {
                 confirmButtonText: 'Aceptar'
             });
 
-            // Limpiar formulario
-            formulario.value = {
+            Object.assign(formulario.value, {
                 nombre: '',
                 email: '',
                 asunto: '',
                 mensaje: ''
-            };
+            });
+        } else {
+            throw new Error("Respuesta inesperada del servidor");
         }
     } catch (error) {
-        console.error('Error al enviar formulario:', error);
-        
         Swal.fire({
             icon: 'error',
             title: 'Error al enviar',
-            text: 'Hubo un problema al enviar tu mensaje. Por favor, inténtalo de nuevo.',
+            text: error.response?.data?.message || 'Hubo un problema al enviar tu mensaje. Inténtalo de nuevo.',
             confirmButtonText: 'Aceptar'
         });
     } finally {
