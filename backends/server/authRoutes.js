@@ -17,7 +17,7 @@ router.get("/clientes", verificarToken, soloAdmin, (req, res) => {
   res.json({ message: `Hola ${req.user.nombre}, estás autenticado` });
 });
 
-router.get("/ventas", verificarToken, soloAdmin, (req, res) => {
+router.get("/ventas", (req, res) => {
   res.json({ message: `Hola ${req.user.nombre}, estás autenticado` });
 });
 

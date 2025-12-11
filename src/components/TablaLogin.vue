@@ -99,16 +99,19 @@ export default {
           sessionStorage.setItem('isUsuario', 'true');
         }
         */
-
+        sessionStorage.setItem('token', data.token)
         if (decoded.tipo === "admin") {
             sessionStorage.setItem('isAdmin', 'true');
             sessionStorage.setItem('userName', data.nombre);
             sessionStorage.setItem('isUser', 'false');
+            sessionStorage.setItem('userDni', this.dni)
           } else {
             sessionStorage.setItem('isAdmin', 'false');
             sessionStorage.setItem('userName', data.nombre);
             sessionStorage.setItem('isUser', 'true');
+            sessionStorage.setItem('userDni', this.dni)
           }
+        console.log(decoded.tipo)
 
         Swal.fire({
           title: "Bienvenido",

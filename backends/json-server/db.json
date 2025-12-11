@@ -66,7 +66,7 @@
     },
     {
       "tipoCliente": "particular",
-      "dni": "90123456A",
+      "dni": "55555555K",
       "fecha_alta": "2022-06-27",
       "nombre": "María",
       "apellidos": "Fernández Martín",
@@ -75,9 +75,10 @@
       "direccion": "Calle Gómez 14",
       "provincia": "Málaga",
       "municipio": "Ronda",
-      "historico": false,
+      "historico": true,
+      "tipo": "user",
       "lopd": false,
-      "password": "",
+      "password": "$2b$10$fyKpvXSr7wmQsvEXjHgN6.GpYR4MutZUSPb0IsDfXnF60qvOAkqdW",
       "id": "960a"
     },
     {
