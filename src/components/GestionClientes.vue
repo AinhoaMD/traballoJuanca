@@ -72,8 +72,9 @@
         </div>
 
         <div class="col-md-1">
-          <label for="refre" class="form-label">Refrescar</label>
+          <label v-if="admin" for="refre" class="form-label">Refrescar</label>
           <button
+            v-if="admin"
             id="refre"
             type="button"
             class="btn btn-secondary shadow-none rounded-0"
@@ -192,13 +193,14 @@
       <div class="mb-3 d-flex justify-content-between align-items-center">
         <div class="form-check form-switch">
           <input
+            v-if="admin"
             type="checkbox"
             id="historico"
             v-model="mostrarHistorico"
             class="form-check-input"
             @change="cargarClientes"
           />
-          <label for="historico" class="form-check-label">Histórico</label>
+          <label v-if="admin" for="historico" class="form-check-label">Histórico</label>
         </div>
 
         <div class="form-check">
@@ -524,6 +526,7 @@ const guardarCliente = async () => {
     });
   }
   recargaForm();
+  window.location.reload()
 };
 
 const editarCliente = (movil) => {
