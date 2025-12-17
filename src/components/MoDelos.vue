@@ -165,6 +165,13 @@
           <button type="submit" class="btn btn-primary rounded-0 border shadow-none px-4 py-2 ms-2 ">
             Eliminar
           </button>
+          <button
+            @type="button"
+            @click="imprimirPDF"
+            class="btn btn-secondary ms-2 px-4 py-2 btn-sm rounded-0 border shadow-none"
+          ><i class="bi bi-printer"></i>Imprimir
+          <!-- Aquí falta arreglar que pueda imprimir sin rellenar campos??? mover el div???-->
+        </button>
         </div>
       </div>
 
@@ -210,6 +217,8 @@ import Swal from "sweetalert2"
 import { ref, computed, onMounted } from "vue"
 import { addArticulo } from "@/api/articulos.js"
 import { getModelos } from "@/api/modelos.js"
+import { jsPDF } from "jspdf";
+import "jspdf-autotable";
 
 const vehiculo = ref({
   tipo: "",
@@ -438,6 +447,58 @@ const capitalizarNombreContacto = () => {
     .map(palabra => palabra ? palabra.charAt(0).toUpperCase() + palabra.slice(1) : '')
     .join(' ');
 };
+
+const imprimirPDF = () => {
+
+// la mayoría de las librerías de generación de PDF sea la aplicación web o sea de escritorio
+// trabajan de la misma manera. Conocida una, conocidas casi todas, solo hay que leer la documentación
+// para ver como es la sintaxis de los atributos de la librería en cuestión
+
+const doc = new jsPDF(); // se crea el canvas
+
+// Verificar si autoTable está disponible hay problemas con las versiones
+// permite la generación de tablas, tienen muchas funcionalidades para elaborar
+// tablas más o menos complejas
+if (typeof doc.autoTable === 'function') {
+  console.log('autoTable está disponible');
+} else {
+  console.error('autoTable NO está disponible en esta instancia de jsPDF');
+}
+
+// Título del PDF. pues eso genera el tamaño de lafuente en este caso el título
+doc.setFontSize(18);
+doc.text("Listado de Vehículos", 14, 20);
+
+// Espacio para los datos de la tabla
+let y = 30
+doc.setFontSize(12);
+
+// Definir los encabezados de la tabla
+const headers = ["Matrícula", "Marca", "Modelo", "Estado", "Combustible", "Precio"];
+
+// Añadir encabezados y en el body van los campos que hemos elegido no hace consultas sino que los obtiene del template
+// podríamos hacer consultas pero será algo que dejaremos para la factura aunque prefiero siempre tenerlos cargados desde
+// el principio del componente.
+
+doc.autoTable({
+startY: y,
+head: [headers],
+body: modelos.value.map(modelo => [
+modelo.matricula,
+modelo.marca,
+modelo.modelo,
+modelo.estado,
+modelo.combustible,
+modelo.precio
+]),
+theme: 'striped', // Aplicar tema de rayas a la tabla
+styles: { fontSize: 10, cellPadding: 3 }
+});
+
+// Guardar el PDF
+doc.save('listado_vehiculos.pdf');
+};
+
 
 </script>
 
