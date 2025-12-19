@@ -170,7 +170,6 @@
             @click="imprimirPDF"
             class="btn btn-secondary ms-2 px-4 py-2 btn-sm rounded-0 border shadow-none"
           ><i class="bi bi-printer"></i>Imprimir
-          <!-- Aquí falta arreglar que pueda imprimir sin rellenar campos??? mover el div???-->
         </button>
         </div>
       </div>
@@ -452,26 +451,44 @@ const imprimirPDF = () => {
   const doc = new jsPDF();
 
   doc.setFontSize(18);
-  doc.text("Listado de Vehículos", 14, 20);
+  doc.text("Listado de Vehículos", 70, 20);
 
+  const fecha = new Date().toISOString().split('T')[0]
+  doc.setFontSize(10);
+  doc.text("Fecha: " + fecha, 85,30);
+
+  let y = 40;
+  doc.setFontSize(12);
   const headers = ["Matrícula", "Marca", "Modelo", "Estado", "Combustible", "Precio"];
 
   autoTable(doc, {
-    startY: 30,
+    startY: y,
     head: [headers],
+    headStyles: {halign: 'center'},
     body: modelos.value.map(modelo => [
       modelo.matricula,
       modelo.marca,
       modelo.modelo,
       modelo.estado,
       modelo.combustible,
-      modelo.precio
+      `${modelo.precio} €`
     ]),
-    theme: "striped",
-    styles: { fontSize: 10 }
+    theme: "grid",
+    styles: { fontSize: 10, cellPadding: 3 },
+    columnStyles: {
+      0: {halign: 'center'},
+      1: {halign: 'left'},
+      2: {halign: 'left'},
+      3: {halign: 'center'},
+      4: {halign: 'center'},
+      5: {halign: 'right'},
+    }
   });
 
-  doc.save("listado_vehiculos.pdf");
+  const hora = new Date().toTimeString().split(' ')[0]
+  const filepdf = `${fecha}_${hora}_listado_vehiculos.pdf`
+
+  doc.save(filepdf);
 };
 
 
