@@ -10,6 +10,8 @@ import CitasTaller from '../components/CitasTaller.vue';
 import TablaLogin from '../components/TablaLogin.vue';
 import VenTas from '../components/VenTas.vue';
 import ConTacto from '../components/ConTacto.vue';
+import BusCar from '../components/BusCar.vue';
+
 
 
 const routes = [
@@ -68,6 +70,11 @@ const routes = [
     name: "ConTacto",
     component: ConTacto,
   },
+  {
+    path: "/buscar",
+    name: "BusCar",
+    component: BusCar
+  }
 ];
 
 const router = createRouter({
