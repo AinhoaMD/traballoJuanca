@@ -29,6 +29,18 @@
         <div v-if="!clientes.length && !noticias.length" class="mt-3">
             <p>No se encontraron resultados.</p>
         </div>
+
+        <!-- ARTÍCULOS -->
+        <div v-if="articulos.length" class="mt-4">
+            <h6 class="fw-bold">Artículos</h6>
+            <ul>
+                <li v-for="a in articulos" :key="a.id">
+                <span v-html="resaltar(a.marca + ' ' + a.modelo, termino)"></span>
+                -
+                <small v-html="resaltar(a.descripcion, termino)"></small>
+                </li>
+            </ul>
+        </div>
     </div>
 </template>
 <script setup>
@@ -44,7 +56,29 @@
     
     const clientes = ref([])
     const noticias = ref([])
+
+    const articulos = ref([])
     
+    // async function buscar() {
+    //     const q = termino.value.trim().toLowerCase()
+    //     if (!q) return
+
+    //     const resClientes = await fetch("http://localhost:3000/clientes")
+    //     const listaClientes = await resClientes.json()
+
+    //     const resNoticias = await fetch("http://localhost:3000/noticias")
+    //     const listaNoticias = await resNoticias.json()
+
+    //     clientes.value = listaClientes.filter(c =>
+    //         (c.apellidos && c.apellidos.toLowerCase().includes (q)) ||
+    //         (c.email && c.email.toLowerCase().includes (q))
+    //     )
+
+    //     noticias.value = listaNoticias.filter(n =>
+    //         n.titulo && n.titulo.toLowerCase().includes(q)
+    //     )
+    // }
+
     async function buscar() {
         const q = termino.value.trim().toLowerCase()
         if (!q) return
@@ -63,6 +97,18 @@
         noticias.value = listaNoticias.filter(n =>
             n.titulo && n.titulo.toLowerCase().includes(q)
         )
+
+        // Búsqueda en MongoDB (artículos)
+        try {
+            const res = await fetch(
+            `http://localhost:5000/api/articulos/buscar?q=${encodeURIComponent(q)}`
+            )
+            if (res.ok) {
+                articulos.value = await res.json()
+            } 
+        } catch (e) {
+            console.warn("MongoDB artículos no disponible")
+        }
     }
 
     onMounted (() => {
@@ -84,5 +130,5 @@
     }
 </script>
 <style scoped>
-    
+
 </style>
