@@ -1,5 +1,5 @@
 <template>
-    <div class="container mt-4">
+    <div class="container mt-4" v-if="admin">
         <h5 class="text-center bg-primary-subtle ms-1 py-1"><i class="bi bi-car-front me-2"></i>Buscando: "{{ termino }}"</h5>
         <hr>
         <!-- CLIENTES -->
@@ -58,6 +58,8 @@
     const noticias = ref([])
 
     const articulos = ref([])
+
+    const admin = sessionStorage.getItem("isAdmin") === "true";
     
     // async function buscar() {
     //     const q = termino.value.trim().toLowerCase()

@@ -3,7 +3,7 @@
     <div class="container-fluid">
       <!-- Marca o logo -->
       <a class="navbar-brand" href="#"
-        ><img src="/src/assets/porfavor.svg" width="100"
+        ><img src="/frontend/assets/porfavor.svg" width="100"
       /></a>
 
       <!-- Botón de hamburguesa en pantallas pequeñas -->
@@ -65,7 +65,7 @@
     </div>
 
     <!-- BUSCADOR alineado a la derecha -->
-    <form class="d-flex ms-auto me-2" role="search" @submit.prevent="buscar">
+    <form class="d-flex ms-auto me-2" role="search" @submit.prevent="buscar" v-if="admin">
       <input
       class="form-control form-control-sm me-2 rounded-0"
       type="search"

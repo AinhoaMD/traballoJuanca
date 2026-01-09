@@ -40,25 +40,25 @@
       <h2>Modelos destacados</h2>
       <div class="grid">
         <div class="card">
-          <img src="/src/assets/mazdarx7.jpg" alt="Coche" />
+          <img src="/frontend/assets/mazdarx7.jpg" alt="Coche" />
           <h3>Mazda RX-7</h3>
           <p>Coche de Amuro</p>
           <!-- <button>Ver detalles</button> -->
         </div>
         <div class="card">
-          <img src="/src/assets/chevroletc1500.jpg" alt="Coche" />
+          <img src="/frontend/assets/chevroletc1500.jpg" alt="Coche" />
           <h3>Chevrolet C‑1500</h3>
           <p>Coche de Akai</p>
           <!-- <button>Ver detalles</button> -->
         </div>
         <div class="card">
-          <img src="/src/assets/porsche356a.jpg" alt="Coche" />
+          <img src="/frontend/assets/porsche356a.jpg" alt="Coche" />
           <h3>Chevrolet C‑1500</h3>
           <p>Coche de Gin</p>
           <!-- <button>Ver detalles</button> -->
         </div>
         <div class="card">
-          <img src="/src/assets/beetle.png" alt="Coche" />
+          <img src="/frontend/assets/beetle.png" alt="Coche" />
           <h3>Volkswagen Beetle</h3>
           <p>Coche de Agasa</p>
           <!-- <button>Ver detalles</button> -->
