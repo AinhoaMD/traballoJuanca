@@ -1,15 +1,37 @@
-import { createApp } from 'vue'
-//import './style.css'
-import App from './App.vue'
-import router from '../backend/router'
+// import { createApp } from 'vue'
+// //import './style.css'
+// import App from './App.vue'
+// import router from '../backend/router'
 
-// import 'bootstrap'
-// import 'bootstrap/dist/js/bootstrap.min.js'
-import 'bootstrap/dist/js/bootstrap.bundle.min.js'
-import 'bootstrap/dist/css/bootstrap.min.css'
-import 'bootstrap-icons/font/bootstrap-icons.css'
-import 'sweetalert2/dist/sweetalert2.min.css'
-import '@fortawesome/fontawesome-free/css/all.css'
+// // import 'bootstrap'
+// // import 'bootstrap/dist/js/bootstrap.min.js'
+// import 'bootstrap/dist/js/bootstrap.bundle.min.js'
+// import 'bootstrap/dist/css/bootstrap.min.css'
+// import 'bootstrap-icons/font/bootstrap-icons.css'
+// import 'sweetalert2/dist/sweetalert2.min.css'
+// import '@fortawesome/fontawesome-free/css/all.css'
 
  
-createApp(App).use(router).mount('#app')
+// createApp(App).use(router).mount('#app')
+import { createApp } from "vue";
+// import './style.css'
+import App from "./App.vue";
+import router from "../backend/router";
+import { createPinia } from "pinia";
+
+// Bootstrap CSS + JS (solo bundle)
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.bundle.min.js";
+
+// Íconos y librerías adicionales
+import "bootstrap-icons/font/bootstrap-icons.css";
+import "@fortawesome/fontawesome-free/css/all.min.css";
+import "sweetalert2/dist/sweetalert2.min.css";
+
+const app = createApp(App);
+const pinia = createPinia();
+
+app.use(router);
+app.use(pinia);
+app.mount("#app");
+

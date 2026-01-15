@@ -11,6 +11,7 @@ import TablaLogin from '@/components/TablaLogin.vue';
 import VenTas from '@/components/VenTas.vue';
 import ConTacto from '@/components/ConTacto.vue';
 import BusCar from '@/components/BusCar.vue';
+import CesTa from '@/components/CesTa.vue';
 
 
 
@@ -73,8 +74,13 @@ const routes = [
   {
     path: "/buscar",
     name: "BusCar",
-    component: BusCar
-  }
+    component: BusCar,
+  },
+  {
+    path: "/cesta",
+    name: "CesTa",
+    component: CesTa,
+  },
 ];
 
 const router = createRouter({

@@ -79,6 +79,26 @@
       </button>
     </form>
 
+    <!-- CESTA DE LA COMPRA -->
+        <router-link
+          to="/cesta"
+          class="btn btn-primary position-relative ms-3 me-2"
+          title="Cesta"
+        >
+
+          <i class="bi bi-cart3 fs-4"></i>
+
+        <!-- Badge con número de productos -->
+          <span
+          class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+          v-if="cesta.totalItems > 0"
+          >
+            {{ cesta.totalItems }}
+          </span>
+        </router-link>
+
+
+
     <!-- Dropdown de acceso/registro -->
     <!-- <div class="dropdown ms-auto"> -->
     <div class="d-flex align-items-center ms-auto">
@@ -121,6 +141,9 @@
 import { ref, onMounted } from "vue";
 import { useRouter } from 'vue-router'
 import { esAdmin } from '@/api/authApi.js'
+import { useCestaStore } from "@/store/cesta.js"
+
+const cesta = useCestaStore();
 
 // Estado do login
 const isLogueado = ref(false);
