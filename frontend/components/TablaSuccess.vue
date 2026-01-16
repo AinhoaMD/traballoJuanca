@@ -17,7 +17,7 @@
               </button>
             </div>
             
-            <router-link to="/modelos" class="text-decoration-none">
+            <router-link to="/" class="text-decoration-none">
               ← Volver a la tienda
             </router-link>
           </div>
