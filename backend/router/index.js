@@ -12,6 +12,8 @@ import VenTas from '@/components/VenTas.vue';
 import ConTacto from '@/components/ConTacto.vue';
 import BusCar from '@/components/BusCar.vue';
 import CesTa from '@/components/CesTa.vue';
+import TablaSuccess from '../../frontend/components/TablaSuccess.vue';
+import TablaCancel from '../../frontend/components/TablaCancel.vue';
 
 
 
@@ -80,6 +82,16 @@ const routes = [
     path: "/cesta",
     name: "CesTa",
     component: CesTa,
+  },
+  {
+    path: "/tabla-success",
+    name: "TablaSuccess",
+    component: TablaSuccess,
+  },
+  {
+    path: "/tabla-cancel",
+    name: "TablaCancel",
+    component: TablaCancel,
   },
 ];
 

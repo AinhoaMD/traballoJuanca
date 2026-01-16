@@ -10,6 +10,7 @@ import dotenv from "dotenv";
 import authRoutes from "./authRoutes.js"
 import articulosRoutes from "./articulosRoutes.js"; // ruta al router backend
 import contactoRoutes from "./contacto.js"
+import Stripe from "stripe";
 
 dotenv.config();
 const app = express();
@@ -19,6 +20,9 @@ const PORT = process.env.PORT || 5000; // Use PORT from environment or default t
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 // app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+
 
 // Middleware
 // app.use(cors()); //si no funciona lo siguiente
@@ -58,11 +62,53 @@ app.use("/api/contacto", contactoRoutes);
 const corsOptions = {
   origin: "http://localhost:5173", // tu frontend
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-  allowredHeaders: ["Origin", "X-Requested-With", "Content-Type", "Accept", "Authorization"],
+  allowedHeaders: ["Origin", "X-Requested-With", "Content-Type", "Accept", "Authorization"],
   credentials: true
 };
 
 app.use(cors(corsOptions));
+
+// Configuración de Stripe carga de la clave secreta const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+
+// ruta crear sescion checkout
+app.post("/crear-checkout-session", async (req, res) => {
+  try {
+    const { items } = req.body;
+
+  const lineItems = items.map(item => ({
+    price_data: {
+      currency: 'eur',
+      product_data: {
+        name: item.nombre,
+      },
+    unit_amount: Math.round(item.precio * 100), // convertir a centimos
+  },
+    quantity: item.cantidad,
+  }));
+
+  const session = await stripe.checkout.sessions.create({
+    payment_method_types: ['card'],
+    line_items: lineItems,
+    mode: "payment",
+    success_url: 'http://localhost:5173/tabla-success', //crear estos componentes en frontend
+    cancel_url: 'http://localhost:5173/tabla-cancel', //crear estos componentes en frontend
+  });
+
+res.json({ url: session.url });
+}
+  catch (error) {
+  console.error("Error creating checkout session:", error);
+  res.status(500).json({ error: "Internal Server Error"});
+  }
+});
+
+// // Ruta para manejar peticiones de IA
+// app.post("/ia", async (req, res) => {
+//   try {
+//   const { message } = req.body;
+// }
+// } catch
+// )
 
 /// Conexión a MongoDB
 mongoose
