@@ -10,12 +10,12 @@
               Gracias por tu compra. Te hemos enviado un correo con los detalles.
             </p>
             
-            <div class="mb-4">
+            <!-- <div class="mb-4">
               <p class="fw-bold">Descargue su factura en formato PDF:</p>
               <button class="btn btn-primary btn-lg mt-2" @click="descargarFactura">
                 📄 Descargar Factura
               </button>
-            </div>
+            </div> -->
             
             <router-link to="/" class="text-decoration-none">
               ← Volver a la tienda
@@ -28,9 +28,9 @@
 </template>
 
 <script setup>
-const descargarFactura = () => {
-  console.log('Descargar factura')
-}
+// const descargarFactura = () => {
+//   console.log('Descargar factura')
+// }
 </script>
 
 <style scoped>
